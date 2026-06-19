@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import { LockOverscroll } from "@/components/LockOverscroll";
 
 export default async function AuthLayout({
   children,
@@ -11,7 +12,8 @@ export default async function AuthLayout({
   if (await getSession()) redirect("/");
 
   return (
-    <div className="relative flex h-dvh flex-col overflow-hidden px-5">
+    <div className="relative flex h-dvh flex-col overflow-hidden overscroll-none px-5">
+      <LockOverscroll />
       {/* Backdrop layers sit behind content (fixed, z-index -1) and never catch pointer events. */}
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
@@ -23,7 +25,7 @@ export default async function AuthLayout({
 
       {/* Card fills the remaining height and centers; only scrolls if it truly
           doesn't fit (very short screens / on-screen keyboard). */}
-      <div className="dh-rise z-10 flex min-h-0 flex-1 items-center justify-center overflow-y-auto pb-4">
+      <div className="dh-rise z-10 flex min-h-0 flex-1 items-center justify-center overflow-y-auto overscroll-contain pb-4">
         <div className="w-full max-w-sm">{children}</div>
       </div>
     </div>
