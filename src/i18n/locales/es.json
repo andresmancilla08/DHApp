@@ -18,7 +18,9 @@
     "title": "Tus hojas de personaje de Daggerheart, en cualquier lugar.",
     "subtitle": "Crea héroes, elige tu clase y dominios, roba cartas, sube de nivel — todo en un lugar.",
     "cta": "Crear personaje",
-    "myCharacters": "Mis Personajes"
+    "myCharacters": "Mis Personajes",
+    "wiki": "Wiki",
+    "wikiDesc": "Reglas, ancestrías, clases y más"
   },
   "locale": {
     "label": "Idioma"
@@ -329,7 +331,16 @@
       "splendor": "Esplendor",
       "splendor_desc": "La vida, la sanación y el extraordinario poder sobre la muerte.",
       "valor": "Valor",
-      "valor_desc": "Protección, fortaleza y fuerza en defensa de los demás."
+      "valor_desc": "Protección, fortaleza y fuerza en defensa de los demás.",
+      "arcana_wiki_desc": "Canaliza energía mágica cruda y manipula el tejido de la realidad.",
+      "blade_wiki_desc": "Domina técnicas de combate y lleva los límites de la fuerza física al extremo.",
+      "bone_wiki_desc": "Aprovecha el poder de la muerte y los no-muertos para potenciar tus habilidades.",
+      "codex_wiki_desc": "Recurre a conocimiento antiguo y tradición olvidada para obtener poder extraordinario.",
+      "grace_wiki_desc": "Muévete con elegancia sobrenatural y precisión para superar a cualquier enemigo.",
+      "midnight_wiki_desc": "Controla la oscuridad y las sombras para ocultarte, engañar y destruir.",
+      "sage_wiki_desc": "Conecta con las fuerzas primordiales de la naturaleza y el mundo vivo.",
+      "splendor_wiki_desc": "Inspira asombro y canaliza resplandor divino para elevar o castigar.",
+      "valor_wiki_desc": "Extrae fortaleza del coraje y protege a quienes no pueden protegerse solos."
     },
     "trait": {
       "agility": "Agilidad",
@@ -431,6 +442,37 @@
       "startling":  "Perturbador: fuerza a los enemigos adyacentes a alejarse",
       "hooked":     "Enganchado: atrae al objetivo a Cuerpo a cuerpo al impactar",
       "veryHeavy":  "Muy Pesado: −2 Evasión; −1 Agilidad"
+    }
+  },
+  "wiki": {
+    "title": "Wiki",
+    "searchPlaceholder": "Buscar...",
+    "clearSearch": "Limpiar búsqueda",
+    "tabsLabel": "Categorías de la Wiki",
+    "noResults": "Sin resultados",
+    "noResultsHint": "Prueba otro término o categoría",
+    "all": "Todos",
+    "resultCount_one": "{{count}} entrada",
+    "resultCount_other": "{{count}} entradas",
+    "category": {
+      "ancestry": "Ancestrías",
+      "community": "Comunidades",
+      "class": "Clases",
+      "domain": "Dominios",
+      "equipment": "Equipo",
+      "rules": "Reglas"
+    },
+    "rules": {
+      "hopeFear": "Esperanza y Miedo",
+      "hopeFear_desc": "Los dos dados que impulsan cada tirada — Esperanza alimenta acciones heroicas, Miedo empodera al GM.",
+      "damage": "Daño y Umbrales",
+      "damage_desc": "Puntos de Vida, umbrales de daño Leve y Grave, y cómo funcionan las heridas.",
+      "rolls": "Tiradas de Acción",
+      "rolls_desc": "Tira 2d12, suma un modificador de rasgo — el dado más alto determina el resultado de Esperanza o Miedo.",
+      "rests": "Descanso y Recuperación",
+      "rests_desc": "Los descansos cortos y largos restauran PV, Estrés y refrescan habilidades.",
+      "conditions": "Condiciones",
+      "conditions_desc": "Vulnerable, Restringido, Oculto y otros estados temporales que afectan a los personajes."
     }
   }
 }

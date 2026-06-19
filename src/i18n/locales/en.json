@@ -18,7 +18,9 @@
     "title": "Your Daggerheart character sheets, anywhere.",
     "subtitle": "Create heroes, choose your class and domains, draw cards, level up — all in one place.",
     "cta": "Create a character",
-    "myCharacters": "My Characters"
+    "myCharacters": "My Characters",
+    "wiki": "Wiki",
+    "wikiDesc": "Rules, ancestries, classes and more"
   },
   "locale": {
     "label": "Language"
@@ -329,7 +331,16 @@
       "splendor": "Splendor",
       "splendor_desc": "Life, healing, and the extraordinary power over death.",
       "valor": "Valor",
-      "valor_desc": "Protection, fortitude, and strength in defense of others."
+      "valor_desc": "Protection, fortitude, and strength in defense of others.",
+      "arcana_wiki_desc": "Channel raw magical energy and manipulate the fabric of reality.",
+      "blade_wiki_desc": "Master combat techniques and push the limits of physical prowess.",
+      "bone_wiki_desc": "Harness the power of death and undeath to fuel your abilities.",
+      "codex_wiki_desc": "Draw upon ancient knowledge and forgotten lore for extraordinary power.",
+      "grace_wiki_desc": "Move with supernatural elegance and precision to outmaneuver any foe.",
+      "midnight_wiki_desc": "Command darkness and shadow to conceal, deceive, and destroy.",
+      "sage_wiki_desc": "Tap into the primordial forces of nature and the living world.",
+      "splendor_wiki_desc": "Inspire awe and channel divine radiance to uplift or smite.",
+      "valor_wiki_desc": "Draw strength from courage and protect those who cannot protect themselves."
     },
     "trait": {
       "agility": "Agility",
@@ -431,6 +442,37 @@
       "startling":  "Startling: force adjacent foes to Close",
       "hooked":     "Hooked: pull target to Melee on hit",
       "veryHeavy":  "Very Heavy: −2 Evasion; −1 Agility"
+    }
+  },
+  "wiki": {
+    "title": "Wiki",
+    "searchPlaceholder": "Search...",
+    "clearSearch": "Clear search",
+    "tabsLabel": "Wiki categories",
+    "noResults": "No results",
+    "noResultsHint": "Try another term or category",
+    "all": "All",
+    "resultCount_one": "{{count}} entry",
+    "resultCount_other": "{{count}} entries",
+    "category": {
+      "ancestry": "Ancestries",
+      "community": "Communities",
+      "class": "Classes",
+      "domain": "Domains",
+      "equipment": "Equipment",
+      "rules": "Rules"
+    },
+    "rules": {
+      "hopeFear": "Hope & Fear",
+      "hopeFear_desc": "The two dice that drive every roll — Hope fuels heroic actions, Fear empowers the GM.",
+      "damage": "Damage & Thresholds",
+      "damage_desc": "Hit Points, Minor and Severe damage thresholds, and how injury works.",
+      "rolls": "Action Rolls",
+      "rolls_desc": "Roll 2d12, add a trait modifier — highest die determines Hope or Fear outcome.",
+      "rests": "Rest & Recovery",
+      "rests_desc": "Short and long rests restore HP, Stress, and refresh abilities.",
+      "conditions": "Conditions",
+      "conditions_desc": "Vulnerable, Restrained, Hidden, and other temporary states affecting characters."
     }
   }
 }

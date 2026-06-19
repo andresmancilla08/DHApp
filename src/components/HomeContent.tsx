@@ -22,6 +22,13 @@ const MODULES: Module[] = [
     descKey: "home.subtitle",
     accent: "from-gold/20 to-gold/5 border-gold/30",
   },
+  {
+    href: "/wiki",
+    icon: "📖",
+    labelKey: "home.wiki",
+    descKey: "home.wikiDesc",
+    accent: "from-fear/20 to-fear/5 border-fear/30",
+  },
 ];
 
 export function HomeContent({ username }: { username: string }) {
