@@ -1,12 +1,9 @@
-import { getTranslations } from "next-intl/server";
 import { AuthForm } from "@/components/auth/AuthForm";
 import { AuthShell } from "@/components/auth/AuthShell";
 
-export default async function RegisterPage() {
-  const t = await getTranslations("auth");
-
+export default function RegisterPage() {
   return (
-    <AuthShell title={t("registerTitle")} subtitle={t("registerSubtitle")}>
+    <AuthShell mode="register">
       <AuthForm mode="register" />
     </AuthShell>
   );

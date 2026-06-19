@@ -1,50 +1,52 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { Geist, Geist_Mono, Cinzel } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale } from "next-intl/server";
+import { I18nProvider } from "@/i18n/I18nProvider";
+import { LANG_COOKIE, normalizeLocale } from "@/i18n/config";
+import en from "@/i18n/locales/en.json";
+import es from "@/i18n/locales/es.json";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 const cinzel = Cinzel({
   variable: "--font-cinzel",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "DHApp — Daggerheart Character Sheets",
-  description: "Create and manage your Daggerheart characters.",
-  manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "DHApp" },
-};
+async function getLang() {
+  const store = await cookies();
+  return normalizeLocale(store.get(LANG_COOKIE)?.value);
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await getLang();
+  const m = (lang === "es" ? es : en).meta;
+  return {
+    title: m.title,
+    description: m.description,
+    manifest: "/manifest.webmanifest",
+    appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "DHApp" },
+  };
+}
 
 export const viewport: Viewport = {
-  themeColor: "#0b0b0f",
+  themeColor: "#0c0a12",
 };
 
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const locale = await getLocale();
+}: Readonly<{ children: React.ReactNode }>) {
+  const lang = await getLang();
 
   return (
     <html
-      lang={locale}
+      lang={lang}
       className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <I18nProvider initialLanguage={lang}>{children}</I18nProvider>
       </body>
     </html>
   );

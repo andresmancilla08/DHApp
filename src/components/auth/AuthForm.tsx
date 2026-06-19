@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { login, register, type AuthState } from "@/lib/auth/actions";
 import { validateUsername } from "@/lib/auth/validation";
@@ -10,7 +10,7 @@ import { PinInput } from "./PinInput";
 type Mode = "login" | "register";
 
 export function AuthForm({ mode }: { mode: Mode }) {
-  const t = useTranslations("auth");
+  const { t } = useTranslation(undefined, { keyPrefix: "auth" });
   const action = mode === "login" ? login : register;
   const [state, formAction, pending] = useActionState<AuthState, FormData>(
     action,

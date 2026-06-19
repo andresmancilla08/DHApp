@@ -1,16 +1,18 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslation } from "react-i18next";
 import { DaggerheartMark } from "./DaggerheartMark";
 
-export async function AuthShell({
-  title,
-  subtitle,
+export function AuthShell({
+  mode,
   children,
 }: {
-  title: string;
-  subtitle: string;
+  mode: "login" | "register";
   children: React.ReactNode;
 }) {
-  const t = await getTranslations("auth");
+  const { t } = useTranslation(undefined, { keyPrefix: "auth" });
+  const title = mode === "login" ? t("loginTitle") : t("registerTitle");
+  const subtitle = mode === "login" ? t("loginSubtitle") : t("registerSubtitle");
 
   return (
     <div className="rounded-3xl border border-border bg-surface/80 p-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] backdrop-blur-sm sm:p-8">

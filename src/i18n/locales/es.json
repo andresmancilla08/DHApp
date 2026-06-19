@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "title": "DHApp — Hojas de personaje de Daggerheart",
+    "description": "Crea y gestiona tus personajes de Daggerheart."
+  },
   "app": {
     "name": "DHApp",
     "tagline": "Crea y gestiona tus personajes de Daggerheart."

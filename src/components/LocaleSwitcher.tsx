@@ -1,30 +1,30 @@
 "use client";
 
-import { useTransition } from "react";
-import { useLocale } from "next-intl";
-import { setUserLocale } from "@/i18n/locale";
-import { localeNames, locales, type Locale } from "@/i18n/config";
+import { useTranslation } from "react-i18next";
+import { localeNames, locales, LANG_COOKIE, type Locale } from "@/i18n/config";
 
 export function LocaleSwitcher() {
-  const active = useLocale() as Locale;
-  const [isPending, startTransition] = useTransition();
+  const { i18n } = useTranslation();
+  const active = (i18n.resolvedLanguage ?? i18n.language) as Locale;
+
+  function change(locale: Locale) {
+    i18n.changeLanguage(locale);
+    document.cookie = `${LANG_COOKIE}=${locale};path=/;max-age=${60 * 60 * 24 * 365}`;
+    document.documentElement.lang = locale;
+  }
 
   return (
-    <div className="inline-flex rounded-full border border-white/10 bg-white/5 p-0.5 text-sm">
+    <div className="inline-flex rounded-full border border-border bg-surface/70 p-0.5 text-sm backdrop-blur-sm">
       {locales.map((locale) => (
         <button
           key={locale}
           type="button"
-          disabled={isPending}
-          onClick={() =>
-            startTransition(async () => {
-              await setUserLocale(locale);
-            })
-          }
-          className={`rounded-full px-3 py-1 transition-colors ${
+          onClick={() => change(locale)}
+          aria-pressed={active === locale}
+          className={`rounded-full px-3 py-1.5 transition-colors ${
             active === locale
-              ? "bg-white text-black"
-              : "text-white/70 hover:text-white"
+              ? "bg-foreground text-[#1a1410]"
+              : "text-muted hover:text-foreground"
           }`}
         >
           {localeNames[locale]}
