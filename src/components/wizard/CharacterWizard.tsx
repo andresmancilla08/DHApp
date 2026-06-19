@@ -104,8 +104,8 @@ export function CharacterWizard() {
 
   return (
     <div className="relative flex h-dvh flex-col overflow-hidden overscroll-none">
-      {/* Sub-header: back to characters + logo */}
-      <SubHeader />
+      {/* Sub-header: back goes to prev step (or exits wizard on step 0) */}
+      <SubHeader onBack={step > 0 ? () => setStep(step - 1) : undefined} />
 
       {/* Progress bar */}
       <div className="mx-4 mt-5 shrink-0 rounded-2xl border border-border bg-surface/90 px-4 pb-3 pt-4 backdrop-blur-sm">

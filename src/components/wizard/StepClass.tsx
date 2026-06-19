@@ -25,6 +25,19 @@ const CLASS_ART: Record<string, string> = {
   wizard:   "/art/wizard.jpg",
 };
 
+// object-position per class to frame the character correctly
+const CLASS_ART_POSITION: Record<string, string> = {
+  bard:     "object-top",
+  druid:    "object-top",
+  guardian: "object-[center_35%]",  // warrior below the sky
+  ranger:   "object-top",
+  rogue:    "object-top",
+  seraph:   "object-[center_10%]",
+  sorcerer: "object-top",
+  warrior:  "object-top",
+  wizard:   "object-top",
+};
+
 const domainColors: Record<string, string> = {
   arcana:   "text-purple-300 bg-purple-900/30",
   blade:    "text-red-300 bg-red-900/30",
@@ -79,9 +92,11 @@ export function StepClass({ data, onChange }: Props) {
                     src={art}
                     alt=""
                     fill
-                    className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
+                    className={`object-cover ${CLASS_ART_POSITION[key] ?? "object-top"} transition-transform duration-300 group-hover:scale-[1.04]`}
                     sizes="(max-width: 640px) 50vw, 33vw"
                   />
+                  {/* Darken top edges (hides white PDF backgrounds) */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#17131f]/70 via-transparent to-transparent" />
                   {/* Fade bottom so info merges seamlessly */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#17131f] via-[#17131f]/30 to-transparent" />
                   {/* Gold shimmer on selection */}
