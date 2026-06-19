@@ -23,10 +23,12 @@ export default async function AuthLayout({
         <LocaleSwitcher />
       </div>
 
-      {/* Card fills the remaining height and centers; only scrolls if it truly
-          doesn't fit (very short screens / on-screen keyboard). */}
-      <div className="dh-rise z-10 flex min-h-0 flex-1 items-center justify-center overflow-y-auto overscroll-contain pb-4">
-        <div className="w-full max-w-sm">{children}</div>
+      {/* Scroll area: centers the card when it fits, and scrolls from the TOP
+          (no clipped top edge) when it doesn't — via the min-h-full wrapper. */}
+      <div className="dh-rise z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div className="flex min-h-full items-center justify-center pb-4">
+          <div className="w-full max-w-sm">{children}</div>
+        </div>
       </div>
     </div>
   );

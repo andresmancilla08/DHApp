@@ -25,7 +25,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const canSubmit = !usernameErr && username.length > 0 && pin.length === 4;
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <form action={formAction} className="flex flex-col gap-5">
       {state.error && (
         <p
           role="alert"
