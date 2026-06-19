@@ -8,131 +8,242 @@ import type { WizardData } from "./types";
 interface Props {
   data: WizardData;
   onChange: (patch: Partial<WizardData>) => void;
+  suggestedTraits?: Partial<Record<TraitKey, number>> | null;
+  spellcastTrait?: TraitKey | null;
+  suggestedClassName?: string;
 }
 
-function modifierLabel(v: number) {
+function modLabel(v: number) {
   return v > 0 ? `+${v}` : `${v}`;
 }
 
-export function StepTraits({ data, onChange }: Props) {
+type ChipState = "assigned" | "pending" | "available";
+
+function buildChipStates(
+  traitArray: readonly number[],
+  traits: Record<TraitKey, number | null>,
+  pendingModifier: number | null,
+): ChipState[] {
+  // Count how many of each value are assigned to traits
+  const assignedByVal: Record<number, number> = {};
+  for (const v of Object.values(traits)) {
+    if (v !== null) assignedByVal[v] = (assignedByVal[v] ?? 0) + 1;
+  }
+
+  const rem = { ...assignedByVal };
+  let pendingMarked = false;
+
+  return traitArray.map((val) => {
+    if (rem[val] && rem[val] > 0) {
+      rem[val]--;
+      return "assigned";
+    }
+    if (!pendingMarked && pendingModifier === val) {
+      pendingMarked = true;
+      return "pending";
+    }
+    return "available";
+  });
+}
+
+export function StepTraits({
+  data,
+  onChange,
+  suggestedTraits,
+  spellcastTrait,
+  suggestedClassName,
+}: Props) {
   const { t } = useTranslation();
 
-  // Pool: list of [+2,+1,+1,0,0,-1] minus already assigned values
+  const chipStates = buildChipStates(TRAIT_ARRAY, data.traits, data.pendingModifier);
+  const hasPending = data.pendingModifier !== null;
   const pool = [...TRAIT_ARRAY] as number[];
-  for (const val of Object.values(data.traits)) {
-    if (val !== null) {
-      const idx = pool.indexOf(val);
+  for (const v of Object.values(data.traits)) {
+    if (v !== null) {
+      const idx = pool.indexOf(v);
       if (idx !== -1) pool.splice(idx, 1);
     }
   }
+  const allAssigned = pool.length === 0;
+  const hasSuggested =
+    suggestedTraits && Object.keys(suggestedTraits).length === 6;
 
-  function handlePoolChip(value: number) {
-    if (data.pendingModifier === value) {
-      onChange({ pendingModifier: null });
-    } else {
-      onChange({ pendingModifier: value });
-    }
+  function handlePoolChip(val: number, state: ChipState) {
+    if (state === "assigned") return;
+    onChange({ pendingModifier: data.pendingModifier === val && state === "pending" ? null : val });
   }
 
   function handleTrait(key: TraitKey) {
     const current = data.traits[key];
-    if (data.pendingModifier !== null) {
-      // Assign pending to this trait, return current to pool
-      const newTraits = { ...data.traits, [key]: data.pendingModifier };
-      onChange({ traits: newTraits, pendingModifier: null });
+    if (hasPending) {
+      onChange({ traits: { ...data.traits, [key]: data.pendingModifier }, pendingModifier: null });
     } else if (current !== null) {
-      // Unassign
       onChange({ traits: { ...data.traits, [key]: null } });
     }
   }
 
-  const allAssigned = pool.length === 0;
+  function applySuggested() {
+    if (!suggestedTraits) return;
+    const newTraits = { ...data.traits } as Record<TraitKey, number | null>;
+    for (const key of TRAITS) {
+      newTraits[key] = suggestedTraits[key] ?? null;
+    }
+    onChange({ traits: newTraits, pendingModifier: null });
+  }
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Modifier pool */}
+    <div className="flex flex-col gap-5">
+
+      {/* ── Modifier pool ───────────────────────────────────────────────── */}
       <div className="rounded-2xl border border-border bg-surface-2/30 p-4">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">
+        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-muted">
           {t("wizard.traits.pool")}
         </p>
+
+        {/* Chips */}
         <div className="flex flex-wrap gap-2">
           {TRAIT_ARRAY.map((val, i) => {
-            const inPool = pool.indexOf(val) !== -1 && pool.filter((v) => v === val).length > (pool.filter((v) => v === val).length - pool.filter((v) => v === val).length);
-            const isPoolItem = pool.includes(val) && (() => {
-              const tmp = [...TRAIT_ARRAY] as number[];
-              for (const tv of Object.values(data.traits)) {
-                if (tv !== null) {
-                  const idx = tmp.indexOf(tv);
-                  if (idx !== -1) tmp.splice(idx, 1);
-                }
-              }
-              return tmp.some((v) => v === val);
-            })();
-            const isPending = data.pendingModifier === val && isPoolItem;
-            // Each chip is shown — if assigned it's dim, if in pool it's tappable
-            const assigned = !isPoolItem;
+            const state = chipStates[i];
             return (
               <button
                 key={i}
                 type="button"
-                disabled={assigned}
-                onClick={() => !assigned && handlePoolChip(val)}
-                className={`min-w-[3rem] rounded-full border px-4 py-2 text-sm font-bold transition active:scale-95 ${
-                  assigned
-                    ? "cursor-not-allowed border-border/30 text-muted/30"
-                    : isPending
-                    ? "border-gold bg-gold text-[#2a1d05] shadow-[0_0_12px_rgba(217,164,65,0.5)]"
-                    : "border-border-strong bg-surface-2 text-foreground hover:border-gold/60"
-                }`}
+                disabled={state === "assigned"}
+                onClick={() => handlePoolChip(val, state)}
+                className={[
+                  "h-11 min-w-[44px] rounded-full border px-4 font-display text-sm font-bold",
+                  "transition-all duration-100 active:scale-[0.91]",
+                  state === "assigned"
+                    ? "cursor-not-allowed border-border/15 text-muted/20"
+                    : state === "pending"
+                    ? "border-gold bg-gold text-[#2a1d05] shadow-[0_0_18px_-2px_rgba(217,164,65,0.65)]"
+                    : "border-border-strong bg-surface-2 text-foreground hover:border-gold/50 hover:shadow-[0_0_10px_-4px_rgba(217,164,65,0.3)]",
+                ].join(" ")}
               >
-                {modifierLabel(val)}
+                {modLabel(val)}
               </button>
             );
           })}
         </div>
-        {data.pendingModifier !== null && (
-          <p className="mt-2 text-xs text-gold/80">
-            {modifierLabel(data.pendingModifier)} — tap a trait to assign
+
+        {/* Pending hint */}
+        {hasPending && (
+          <p
+            className="mt-2.5 text-[11px] font-medium text-gold/80"
+            style={{ animation: "none" }}
+          >
+            {t("wizard.traits.pendingHint", { mod: modLabel(data.pendingModifier!) })}
           </p>
+        )}
+
+        {/* Suggested button */}
+        {hasSuggested && (
+          <div className="mt-3 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={applySuggested}
+              className="rounded-full border border-gold/40 px-4 py-1.5 text-xs font-semibold text-gold transition-all duration-100 hover:border-gold/70 hover:bg-gold/[0.08] active:scale-[0.97]"
+            >
+              {t("wizard.traits.applySuggested")}
+            </button>
+            {suggestedClassName && (
+              <span className="text-[10px] text-muted/70">
+                {t("wizard.traits.suggestedFor", { className: suggestedClassName })}
+              </span>
+            )}
+          </div>
         )}
       </div>
 
-      {/* Trait rows */}
+      {/* ── Trait cards ─────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-2">
-        {TRAITS.map((key) => {
+        {TRAITS.map((key, i) => {
           const val = data.traits[key];
-          const isTarget = data.pendingModifier !== null;
+          const hasValue = val !== null;
+          const isSpellcast = spellcastTrait === key;
 
           return (
             <button
               key={key}
               type="button"
               onClick={() => handleTrait(key)}
-              className={`flex items-center gap-4 rounded-xl border px-4 py-3 text-left transition active:scale-[0.99] ${
-                isTarget
-                  ? "border-gold/50 bg-gold/[0.04] hover:bg-gold/[0.08]"
-                  : val !== null
-                  ? "border-border-strong bg-surface-2/50"
-                  : "border-border bg-surface-2/30"
-              }`}
+              style={{
+                transitionDelay: `${i * 20}ms`,
+              }}
+              className={[
+                "group flex items-center gap-3 rounded-2xl border px-4 py-3 text-left",
+                "transition-all duration-150 active:scale-[0.98]",
+                hasPending
+                  ? "border-gold/35 bg-gold/[0.04] shadow-[0_0_14px_-6px_rgba(217,164,65,0.4)]"
+                  : hasValue
+                  ? "border-border-strong bg-surface-2/60"
+                  : "border-border bg-surface-2/30",
+              ].join(" ")}
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-surface font-display text-sm font-bold text-gold">
-                {val !== null ? modifierLabel(val) : "·"}
+              {/* Value badge */}
+              <div
+                className={[
+                  "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border",
+                  "font-display text-sm font-bold transition-all duration-200",
+                  hasValue
+                    ? "border-gold/50 bg-gradient-to-b from-gold/20 to-gold/5 text-gold shadow-[0_0_12px_-2px_rgba(217,164,65,0.5)]"
+                    : hasPending
+                    ? "border-gold/25 bg-gold/[0.06] text-gold/35"
+                    : "border-border bg-surface text-muted/35",
+                ].join(" ")}
+              >
+                {hasValue ? modLabel(val) : "·"}
               </div>
+
+              {/* Name + verbs */}
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-foreground">{t(`dh.trait.${key}`)}</p>
-                <p className="text-xs text-muted">{t(`dh.trait.${key}_verbs`)}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-sm font-semibold leading-tight text-foreground">
+                    {t(`dh.trait.${key}`)}
+                  </p>
+                  {isSpellcast && (
+                    <span
+                      className="text-[9px] text-gold/80"
+                      title={t("wizard.traits.spellcastHint")}
+                    >
+                      ✦
+                    </span>
+                  )}
+                </div>
+                <p className="mt-0.5 text-[11px] text-muted">
+                  {t(`dh.trait.${key}_verbs`)}
+                </p>
               </div>
-              {val !== null && (
-                <span className="text-xs text-muted/60">tap to remove</span>
-              )}
+
+              {/* Action hint */}
+              <span
+                className={[
+                  "shrink-0 text-[10px] font-medium transition-opacity duration-150",
+                  hasPending
+                    ? hasValue
+                      ? "text-gold/55 opacity-100"
+                      : "text-gold/70 opacity-100"
+                    : hasValue
+                    ? "text-muted/45 opacity-0 group-hover:opacity-100"
+                    : "opacity-0",
+                ].join(" ")}
+              >
+                {hasPending
+                  ? hasValue
+                    ? t("wizard.traits.tapReplace")
+                    : t("wizard.traits.tapAssign")
+                  : t("wizard.traits.tapRemove")}
+              </span>
             </button>
           );
         })}
       </div>
 
+      {/* All assigned confirmation */}
       {allAssigned && (
-        <p className="text-center text-xs text-gold/70">{t("wizard.traits.allAssigned")} ✓</p>
+        <p className="text-center text-xs font-medium text-gold/70">
+          {t("wizard.traits.allAssigned")}
+        </p>
       )}
     </div>
   );

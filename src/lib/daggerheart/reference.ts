@@ -81,6 +81,24 @@ export const CLASS_DOMAINS: Record<ClassKey, [DomainKey, DomainKey]> = {
 
 export const CLASSES: ClassKey[] = Object.keys(CLASS_DOMAINS) as ClassKey[];
 
+/**
+ * Suggested trait distribution per class (CoreBook character guides).
+ * Values: +2, +1, +1, 0, 0, -1 distributed across the six traits.
+ */
+export const CLASS_SUGGESTED_TRAITS: Record<ClassKey, Record<TraitKey, number>> = {
+  // Confirmed from CoreBook text extraction
+  bard:     { agility: 0,  strength: -1, finesse: 1,  instinct: 0,  presence: 2,  knowledge: 1 },
+  sorcerer: { agility: 0,  strength: -1, finesse: 1,  instinct: 2,  presence: 1,  knowledge: 0 },
+  // Pending verification from CoreBook PDF — placeholder distributions
+  druid:    { agility: 1,  strength: -1, finesse: 0,  instinct: 2,  presence: 1,  knowledge: 0 },
+  guardian: { agility: 1,  strength: 2,  finesse: 0,  instinct: 0,  presence: 1,  knowledge: -1 },
+  ranger:   { agility: 2,  strength: 1,  finesse: 1,  instinct: 0,  presence: 0,  knowledge: -1 },
+  rogue:    { agility: 2,  strength: 0,  finesse: 1,  instinct: 1,  presence: 0,  knowledge: -1 },
+  seraph:   { agility: 1,  strength: 2,  finesse: 0,  instinct: 0,  presence: 1,  knowledge: -1 },
+  warrior:  { agility: 1,  strength: 2,  finesse: 1,  instinct: 0,  presence: 0,  knowledge: -1 },
+  wizard:   { agility: 0,  strength: -1, finesse: 1,  instinct: 0,  presence: 0,  knowledge: 2 },
+};
+
 /** Level -> tier mapping. Tiers gate available advancements and card levels. */
 export function tierForLevel(level: number): 1 | 2 | 3 | 4 {
   if (level <= 1) return 1;

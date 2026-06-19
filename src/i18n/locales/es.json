@@ -113,10 +113,17 @@
     "traits": {
       "title": "Asignar Rasgos",
       "subtitle": "Distribuye estos modificadores entre tus seis rasgos.",
-      "pool": "Disponibles",
-      "hint": "Toca un rasgo para ciclar los valores disponibles.",
-      "allAssigned": "Todos los rasgos asignados",
-      "needAll": "Asigna los 6 rasgos para continuar"
+      "pool": "Modificadores disponibles",
+      "hint": "Selecciona un modificador y luego elige un rasgo.",
+      "allAssigned": "Todos los rasgos asignados ✓",
+      "needAll": "Asigna los 6 rasgos para continuar",
+      "applySuggested": "Aplicar sugeridos",
+      "suggestedFor": "Sugerido para {{className}}",
+      "tapRemove": "toca para quitar",
+      "tapReplace": "reemplazar",
+      "tapAssign": "asignar aquí",
+      "pendingHint": "{{mod}} seleccionado — elige un rasgo",
+      "spellcastHint": "Rasgo de hechizo de tu subclase"
     },
     "cards": {
       "title": "Cartas de Dominio",

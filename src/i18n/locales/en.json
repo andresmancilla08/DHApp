@@ -113,10 +113,17 @@
     "traits": {
       "title": "Assign Traits",
       "subtitle": "Distribute these modifiers across your six traits.",
-      "pool": "Available",
-      "hint": "Tap a trait to cycle through available values.",
-      "allAssigned": "All traits assigned",
-      "needAll": "Assign all 6 traits to continue"
+      "pool": "Available modifiers",
+      "hint": "Select a modifier, then tap a trait to assign it.",
+      "allAssigned": "All traits assigned ✓",
+      "needAll": "Assign all 6 traits to continue",
+      "applySuggested": "Apply suggested",
+      "suggestedFor": "Suggested for {{className}}",
+      "tapRemove": "tap to remove",
+      "tapReplace": "replace",
+      "tapAssign": "assign here",
+      "pendingHint": "{{mod}} selected — pick a trait",
+      "spellcastHint": "Your subclass spellcast trait"
     },
     "cards": {
       "title": "Domain Cards",

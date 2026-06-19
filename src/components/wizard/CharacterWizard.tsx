@@ -4,10 +4,11 @@ import { useState, useTransition, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import { SubHeader } from "@/components/SubHeader";
-import { TRAIT_ARRAY } from "@/lib/daggerheart/reference";
+import { TRAIT_ARRAY, CLASS_SUGGESTED_TRAITS } from "@/lib/daggerheart/reference";
 import { createCharacter } from "@/lib/characters/actions";
 import type { CreateCharacterInput } from "@/lib/characters/actions";
 import type { CharacterTraits, TraitKey } from "@/lib/daggerheart/types";
+import { SUBCLASS_DEFS } from "@/lib/daggerheart/classes";
 import { INITIAL_DATA, STEP_KEYS, type WizardData } from "./types";
 import { StepIdentity } from "./StepIdentity";
 import { StepClass } from "./StepClass";
@@ -101,7 +102,13 @@ export function CharacterWizard() {
     identity:   <StepIdentity data={data} onChange={update} />,
     class:      <StepClass data={data} onChange={update} />,
     heritage:   <StepHeritage data={data} onChange={update} />,
-    traits:     <StepTraits data={data} onChange={update} />,
+    traits:     <StepTraits
+                  data={data}
+                  onChange={update}
+                  suggestedTraits={data.classKey ? CLASS_SUGGESTED_TRAITS[data.classKey] : null}
+                  spellcastTrait={data.subclassKey ? SUBCLASS_DEFS[data.subclassKey].spellcastTrait : null}
+                  suggestedClassName={data.classKey ? t(`dh.class.${data.classKey}`) : undefined}
+                />,
     cards:      <StepDomainCards data={data} onChange={update} />,
     equipment:  <StepEquipment data={data} onChange={update} />,
     background: <StepBackground data={data} onChange={update} />,
