@@ -54,8 +54,8 @@ export function StepClass({ data, onChange }: Props) {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Mobile: 1-col full-width cards; tablet: 2-col; desktop: 3-col */}
-      <div className="grid grid-cols-1 items-start gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {/* 2-col on mobile, 3-col on desktop */}
+      <div className="grid grid-cols-2 items-start gap-3 lg:grid-cols-3">
         {CLASSES.map((key) => {
           const def = CLASS_DEFS[key];
           const art = CLASS_ART[key];
@@ -88,52 +88,49 @@ export function StepClass({ data, onChange }: Props) {
                   : "border-border bg-surface-2/40 hover:border-border-strong",
               ].join(" ")}
             >
-              {/* Art — taller on mobile (full-width card), compact on sm+ (multi-col) */}
+              {/* Art with name + domains overlaid at bottom (cinematographic) */}
               {art ? (
-                <div className="relative h-[180px] w-full shrink-0 sm:h-[110px]">
+                <div className="relative h-[150px] w-full shrink-0">
                   <Image
                     src={art}
                     alt=""
                     fill
                     className={`object-cover ${CLASS_ART_POSITION[key] ?? "object-top"} transition-transform duration-300 group-hover:scale-[1.04]`}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 1024px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#17131f]/60 via-transparent to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#17131f] via-[#17131f]/20 to-transparent" />
+                  {/* Top vignette */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#17131f]/50 via-transparent to-transparent" />
+                  {/* Bottom gradient — deeper for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e0b16] via-[#0e0b16]/60 to-transparent" />
                   {isSelected && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-gold/[0.10] via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gold/[0.08] via-transparent to-transparent" />
                   )}
+                  {/* Class name + domains overlaid at bottom of art */}
+                  <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
+                    <p className="font-display text-[13px] font-bold leading-tight text-foreground drop-shadow-sm">
+                      {t(`dh.class.${key}`)}
+                    </p>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {def.domains.map((d) => (
+                        <span
+                          key={d}
+                          className={`rounded-md px-1.5 py-0.5 text-[9px] font-semibold backdrop-blur-sm ${domainColors[d] ?? "text-muted bg-surface"}`}
+                        >
+                          {t(`dh.domain.${d}`)}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <div className="h-[180px] w-full shrink-0 bg-surface-2/60 sm:h-[110px]" />
+                <div className="h-[150px] w-full shrink-0 bg-surface-2/60" />
               )}
 
-              {/* Class info */}
-              <div className="flex flex-1 flex-col gap-1.5 px-3 pb-3 pt-2.5">
-                <div className="flex items-start justify-between gap-2">
-                  <span className="font-display text-base font-semibold leading-tight text-foreground sm:text-sm">
-                    {t(`dh.class.${key}`)}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-1">
-                  {def.domains.map((d) => (
-                    <span
-                      key={d}
-                      className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${domainColors[d] ?? "text-muted bg-surface"}`}
-                    >
-                      {t(`dh.domain.${d}`)}
-                    </span>
-                  ))}
-                </div>
-                {/* Description: shown only on full-width mobile cards */}
-                <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-muted/80 sm:hidden">
-                  {t(`dh.class.${key}_desc`)}
-                </p>
-                <div className="flex gap-3 text-[11px] text-muted">
-                  <span>{t("wizard.class.evasion")} {def.evasion}</span>
-                  <span className="opacity-30">·</span>
-                  <span>{t("wizard.class.hp")} {def.hp}</span>
-                </div>
+              {/* Stats row — compact, below art */}
+              <div className="flex items-center gap-2 px-3 py-2.5 text-[11px] text-muted">
+                <span className="font-medium">{t("wizard.class.evasion")} <strong className="text-foreground/70">{def.evasion}</strong></span>
+                <span className="opacity-25">·</span>
+                <span className="font-medium">{t("wizard.class.hp")} <strong className="text-foreground/70">{def.hp}</strong></span>
               </div>
 
               {/* ── Subclass expand panel ────────────────────────────────────
