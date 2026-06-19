@@ -25,7 +25,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const canSubmit = !usernameErr && username.length > 0 && pin.length === 4;
 
   return (
-    <form action={formAction} className="flex flex-col gap-5">
+    <form action={formAction} className="flex flex-col gap-6">
       {state.error && (
         <p
           role="alert"
@@ -36,7 +36,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
       )}
 
       {/* Username */}
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <label htmlFor="username" className="text-sm font-medium text-foreground/80">
           {t("username")}
         </label>
@@ -61,7 +61,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
       </div>
 
       {/* PIN */}
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-foreground/80">{t("pin")}</label>
         <input type="hidden" name="pin" value={pin} />
         <PinInput
@@ -77,7 +77,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
       <button
         type="submit"
         disabled={pending || !canSubmit}
-        className="mt-1 h-12 rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none"
+        className="mt-2 h-12 rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none"
       >
         {pending
           ? mode === "login"
