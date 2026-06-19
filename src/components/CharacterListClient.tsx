@@ -99,7 +99,7 @@ export function CharacterListClient({ characters }: { characters: Character[] })
         )}
       </div>
 
-      {/* CTA fijo al fondo — regla obligatoria DHApp */}
+      {/* CTA fijo al fondo */}
       <div className="fixed bottom-0 left-0 right-0 z-20 flex flex-col items-center px-5 pb-safe bg-gradient-to-t from-background via-background/95 to-transparent pt-8">
         <div className="mb-4 w-full max-w-lg">
           <Link
