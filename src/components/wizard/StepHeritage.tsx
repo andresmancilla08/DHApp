@@ -88,7 +88,6 @@ function HeritageCard({
   label,
   description,
   onClick,
-  colSpanFull,
   cardRef,
 }: {
   cardKey: string;
@@ -98,7 +97,6 @@ function HeritageCard({
   label: string;
   description: string;
   onClick: () => void;
-  colSpanFull: boolean;
   cardRef?: (el: HTMLDivElement | null) => void;
 }) {
   return (
@@ -113,8 +111,7 @@ function HeritageCard({
       }}
       className={[
         "group relative flex cursor-pointer select-none flex-col overflow-hidden rounded-2xl border text-left",
-        "transition-all duration-150 active:scale-[0.97]",
-        colSpanFull ? "col-span-2 lg:col-span-1" : "col-span-1",
+        "col-span-1 transition-all duration-150 active:scale-[0.97]",
         isSelected
           ? "border-gold shadow-[0_0_0_1px_rgba(217,164,65,0.6),0_0_24px_-4px_rgba(217,164,65,0.5),0_4px_24px_-8px_rgba(217,164,65,0.3)]"
           : "border-border bg-surface-2/40 hover:border-border-strong",
@@ -207,7 +204,6 @@ export function StepHeritage({ data, onChange }: Props) {
               label={t(`dh.ancestry.${key}`)}
               description={t(`dh.ancestry.${key}_desc`)}
               onClick={() => onChange({ ancestryKey: key as AncestryKey })}
-              colSpanFull={data.ancestryKey === key}
               cardRef={(el) => { ancestryRefs.current[key] = el; }}
             />
           ))}
@@ -231,7 +227,6 @@ export function StepHeritage({ data, onChange }: Props) {
               label={t(`dh.community.${key}`)}
               description={t(`dh.community.${key}_desc`)}
               onClick={() => onChange({ communityKey: key as CommunityKey })}
-              colSpanFull={data.communityKey === key}
               cardRef={(el) => { communityRefs.current[key] = el; }}
             />
           ))}
