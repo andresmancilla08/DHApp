@@ -33,8 +33,8 @@ export function CharacterSheetClient({ character: c }: Props) {
           sizes="100vw"
           style={{
             objectFit: "cover",
-            objectPosition: "top center",
-            filter: "brightness(0.55) saturate(1.15)",
+            objectPosition: "center 30%",
+            filter: "brightness(0.6) saturate(1.15)",
           }}
         />
         {/* Gradiente de legibilidad */}
