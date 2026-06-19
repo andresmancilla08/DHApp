@@ -97,3 +97,25 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Mobile safe areas (notch / dynamic island / home indicator) ──────── */
+.pt-safe { padding-top: max(env(safe-area-inset-top), 0.75rem); }
+.pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.75rem); }
+.min-h-dvh { min-height: 100dvh; }
+
+@keyframes dh-pop {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.dh-pop { animation: dh-pop 0.13s cubic-bezier(0.2, 0.7, 0.2, 1) both; transform-origin: top right; }
+
+@keyframes dh-sheet-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes dh-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.dh-sheet { animation: dh-sheet-in 0.2s cubic-bezier(0.32, 0.72, 0, 1) both; }
+.dh-scrim { animation: dh-fade-in 0.16s ease both; }

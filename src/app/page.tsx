@@ -6,5 +6,5 @@ export default async function Home() {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  return <HomeContent />;
+  return <HomeContent username={session.username} />;
 }

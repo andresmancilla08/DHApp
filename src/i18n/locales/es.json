@@ -10,7 +10,9 @@
   "nav": {
     "characters": "Personajes",
     "signIn": "Iniciar sesión",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "menu": "Abrir menú",
+    "signedInAs": "Conectado como"
   },
   "home": {
     "title": "Tus hojas de personaje de Daggerheart, en cualquier lugar.",

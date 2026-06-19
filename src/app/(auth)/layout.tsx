@@ -11,11 +11,11 @@ export default async function AuthLayout({
   if (await getSession()) redirect("/");
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center px-5 py-10">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center px-5 py-10">
       {/* Backdrop layers sit behind content (fixed, z-index -1) and never catch pointer events. */}
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
-      <div className="absolute right-5 top-5 z-10">
+      <div className="absolute right-4 top-[calc(env(safe-area-inset-top)+0.75rem)] z-10">
         <LocaleSwitcher />
       </div>
       <div className="dh-rise z-10 w-full max-w-sm">{children}</div>

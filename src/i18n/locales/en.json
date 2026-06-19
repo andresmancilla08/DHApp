@@ -10,7 +10,9 @@
   "nav": {
     "characters": "Characters",
     "signIn": "Sign in",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "menu": "Open menu",
+    "signedInAs": "Signed in as"
   },
   "home": {
     "title": "Your Daggerheart character sheets, anywhere.",

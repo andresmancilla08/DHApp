@@ -26,6 +26,29 @@ DEBE salir del libro oficial `CoreBook.pdf` (raíz del repo, solo local, gitigno
   frontend-design, oh-my-claudecode:designer, impeccable) ANTES de declarar cualquier
   pantalla o componente como completo. Sin excepción.
 
+### Patrones móviles (seguir SIEMPRE)
+
+- **Top bar**: usar `AppHeader` (sticky, `pt-safe`, marca a la izquierda + `AppMenu`
+  avatar a la derecha). Nunca amontonar acciones (idioma, logout, etc.) en la barra.
+- **Acciones/menús/overlays**: usar `BottomSheet` (`@/components/ui/BottomSheet`), NO
+  dropdowns flotantes. Patrón nativo móvil: scrim con blur + panel desde abajo, grabber,
+  `pb-safe`, cierre por scrim/Escape, bloqueo de scroll del body.
+- **Diálogos (transversal)**: usar SIEMPRE `AppDialog` (`@/components/ui/AppDialog`) para
+  confirmaciones, info y menús de acción. Construido sobre `BottomSheet`, mismo estilo.
+- **Centrado**: títulos y contenido de diálogos/sheets van SIEMPRE centrados, nunca
+  alineados a la izquierda. (Excepción: labels de campos de formulario, que van a la izq.)
+- **Safe areas**: `viewport-fit=cover` ya activo. Usar utilidades `pt-safe` / `pb-safe`
+  para notch/dynamic island/home indicator. Alturas con `min-h-dvh` (no `min-h-screen`).
+- **Touch**: targets ≥44×44px; separación ≥8px entre elementos tocables.
+- **Icon-button**: círculo translúcido de acento (`bg-gold/[0.12]` + `border-gold/30`),
+  44px en barras, ~36px inline (regla global del usuario).
+- **Tipografía responsive**: base móvil y escalar con `sm:` (ej. `text-3xl sm:text-4xl`).
+  Limitar ancho de lectura con `max-w-[Nch]`.
+- **Botones**: primario pill dorado (`rounded-full`, gradiente Hope); siempre `active:scale`.
+- **Animaciones**: rápidas (≤200ms, easing `cubic-bezier`), respetar `prefers-reduced-motion`
+  (sheets `dh-sheet`, popovers `dh-pop`, entradas `dh-rise`).
+- **Verificación visual**: validar en 390px (iPhone) con screenshots reales antes de cerrar.
+
 ## Stack / convenciones
 
 - Datos + auth: **Firebase** (Firestore + auth propio username/PIN server-side). Plan Spark (gratis).
