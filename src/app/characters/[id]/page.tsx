@@ -21,7 +21,7 @@ export default async function CharacterPage({ params }: Props) {
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
       <SubHeader backHref="/characters" />
-      <main className="z-10 flex-1 overflow-y-auto">
+      <main className="z-10 flex min-h-0 flex-1 flex-col">
         <CharacterPageClient character={character} />
       </main>
     </div>

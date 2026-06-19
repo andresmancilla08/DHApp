@@ -60,8 +60,7 @@ export function CharacterSheetClient({ character: c }: Props) {
         </div>
       </div>
 
-      {/* Content sections — extra bottom padding for fixed level-up CTA */}
-      <div className="flex flex-col gap-5 pb-44">
+      <div className="flex flex-col gap-5 pb-6">
         {/* ── Stats ── */}
         <div className="grid grid-cols-5 gap-2">
           {[

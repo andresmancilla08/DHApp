@@ -16,12 +16,15 @@ export function CharacterPageClient({ character }: Props) {
   const canLevelUp = character.level < 10;
 
   return (
-    <>
-      <CharacterSheetClient character={character} />
+    <div className="flex min-h-0 flex-1 flex-col">
+      {/* Scrollable sheet */}
+      <div className="flex-1 overflow-y-auto">
+        <CharacterSheetClient character={character} />
+      </div>
 
-      {/* Fixed bottom CTA — level up */}
+      {/* Level up CTA — natural flow, 15px gap from scroll area */}
       {canLevelUp && (
-        <div className="fixed bottom-0 left-0 right-0 z-20 px-5 pt-14 pb-safe bg-gradient-to-t from-background via-background/90 to-transparent">
+        <div className="shrink-0 px-5 pb-safe" style={{ marginTop: "15px" }}>
           <button
             type="button"
             onClick={() => setLevelUpOpen(true)}
@@ -41,6 +44,6 @@ export function CharacterPageClient({ character }: Props) {
         open={levelUpOpen}
         onClose={() => setLevelUpOpen(false)}
       />
-    </>
+    </div>
   );
 }
