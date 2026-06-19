@@ -143,7 +143,9 @@
       "range": "Alcance",
       "damage": "Daño",
       "score": "Puntuación",
-      "thresholds": "Umbrales"
+      "thresholds": "Umbrales",
+      "noSecondary": "— Ninguna (omitir secundaria)",
+      "noArmorHint": "Requiere la carta Huesos al Aire (dominio Valor)"
     },
     "background": {
       "title": "Tus Experiencias",
@@ -153,7 +155,8 @@
       "exp1Placeholder": "ej. Espadachín",
       "exp2Placeholder": "ej. Linaje Noble",
       "expHint": "Una palabra o frase que captura una habilidad o área de expertise.",
-      "modifier": "+2"
+      "modifier": "+2",
+      "expNote": "Las experiencias son personales — ninguna lista las define. Elige algo que capture quién es tu personaje y qué ha vivido. Cada una te da +2 en cualquier tirada donde sea relevante."
     },
     "review": {
       "title": "¿Listo?",

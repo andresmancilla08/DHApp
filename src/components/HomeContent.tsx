@@ -26,13 +26,14 @@ export function HomeContent({ username }: { username: string }) {
   const { t } = useTranslation();
 
   return (
-    <div className="relative flex min-h-dvh flex-col text-foreground">
+    <div className="relative flex h-dvh flex-col overflow-hidden text-foreground">
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
 
       <AppHeader username={username} />
 
-      <main className="dh-rise z-10 flex flex-1 flex-col px-5 py-8 gap-8">
+      {/* Scrollable content */}
+      <main className="dh-rise z-10 flex min-h-0 flex-1 flex-col overflow-y-auto px-5 py-8 gap-8">
         {/* Hero */}
         <div className="text-center">
           <h1 className="font-display text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
@@ -58,20 +59,22 @@ export function HomeContent({ username }: { username: string }) {
               </svg>
             </Link>
           ))}
-
-          {/* Quick create CTA */}
-          <Link
-            href="/characters/new"
-            className="flex h-14 items-center justify-center rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99]"
-          >
-            + {t("home.cta")}
-          </Link>
         </div>
+
+        <footer className="z-10 text-center text-xs text-muted/50">
+          {t("app.tagline")}
+        </footer>
       </main>
 
-      <footer className="pb-safe z-10 px-6 pt-2 text-center text-xs text-muted/50">
-        {t("app.tagline")}
-      </footer>
+      {/* Fixed bottom CTA */}
+      <div className="z-10 shrink-0 px-5 pb-safe pt-3" style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}>
+        <Link
+          href="/characters/new"
+          className="flex h-14 items-center justify-center rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99]"
+        >
+          + {t("home.cta")}
+        </Link>
+      </div>
     </div>
   );
 }

@@ -45,6 +45,8 @@ DEBE salir del libro oficial `CoreBook.pdf` (raíz del repo, solo local, gitigno
 - **Tipografía responsive**: base móvil y escalar con `sm:` (ej. `text-3xl sm:text-4xl`).
   Limitar ancho de lectura con `max-w-[Nch]`.
 - **Botones**: primario pill dorado (`rounded-full`, gradiente Hope); siempre `active:scale`.
+- **CTA / acciones principales**: SIEMPRE ancladas al fondo de la pantalla en una barra fija
+  (`shrink-0`, `pb-safe`, con `mb-4` extra). NUNCA flotan en medio del contenido.
 - **Animaciones**: rápidas (≤200ms, easing `cubic-bezier`), respetar `prefers-reduced-motion`
   (sheets `dh-sheet`, popovers `dh-pop`, entradas `dh-rise`).
 - **Verificación visual**: validar en 390px (iPhone) con screenshots reales antes de cerrar.

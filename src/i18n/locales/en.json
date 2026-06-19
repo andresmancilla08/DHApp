@@ -143,7 +143,9 @@
       "range": "Range",
       "damage": "Damage",
       "score": "Score",
-      "thresholds": "Thresholds"
+      "thresholds": "Thresholds",
+      "noSecondary": "— None (skip secondary)",
+      "noArmorHint": "Requires the Bare Bones card (Valor domain)"
     },
     "background": {
       "title": "Your Experiences",
@@ -153,7 +155,8 @@
       "exp1Placeholder": "e.g. Swashbuckler",
       "exp2Placeholder": "e.g. Noble Upbringing",
       "expHint": "A word or phrase that captures a skill or area of expertise.",
-      "modifier": "+2"
+      "modifier": "+2",
+      "expNote": "Experiences are personal — no list defines them. Choose something that captures who your character is and what they've done. Each one gives you +2 on any roll where it's relevant."
     },
     "review": {
       "title": "Ready?",

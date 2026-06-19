@@ -39,9 +39,7 @@ export function StepBackground({ data, onChange }: Props) {
       </div>
 
       <div className="rounded-2xl border border-border/50 bg-surface-2/20 p-4">
-        <p className="text-xs leading-relaxed text-muted/70">
-          Experiences are personal — no list defines them. Choose something that captures who your character is and what they&apos;ve done. Each one gives you +2 on any roll where it&apos;s relevant.
-        </p>
+        <p className="text-xs leading-relaxed text-muted/70">{t("expNote")}</p>
       </div>
     </div>
   );

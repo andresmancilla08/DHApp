@@ -131,7 +131,7 @@ export function StepEquipment({ data, onChange }: Props) {
                 : "border-border bg-surface-2/30"
             }`}
           >
-            — {t("wizard.equipment.noArmor").replace("Sin Armadura", "None")} (skip)
+            {t("wizard.equipment.noSecondary")}
           </button>
           {SECONDARY_WEAPONS.map((w) => (
             <WeaponRow
@@ -160,7 +160,7 @@ export function StepEquipment({ data, onChange }: Props) {
             }`}
           >
             <p className="text-sm font-semibold text-foreground">{t("wizard.equipment.noArmor")}</p>
-            <p className="mt-1 text-xs text-muted">Requires the Bare Bones card (Valor domain)</p>
+            <p className="mt-1 text-xs text-muted">{t("wizard.equipment.noArmorHint")}</p>
           </button>
           {ARMORS.map((a) => (
             <button
@@ -184,6 +184,7 @@ export function StepEquipment({ data, onChange }: Props) {
                 <span className="text-muted">{t("wizard.equipment.thresholds")} {a.minorThreshold}/{a.severeThreshold}</span>
               </div>
               {a.feature && <p className="text-[11px] italic text-muted/80">{a.feature}</p>}
+
             </button>
           ))}
         </div>
