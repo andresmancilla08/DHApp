@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { CLASSES } from "@/lib/daggerheart/reference";
 import { CLASS_DEFS, SUBCLASS_DEFS } from "@/lib/daggerheart/classes";
-import { SelectionCard } from "./SelectionCard";
+import type { SubclassKey } from "@/lib/daggerheart/classes";
 import type { WizardData } from "./types";
 import type { ClassKey } from "@/lib/daggerheart/types";
 
@@ -25,11 +25,10 @@ const CLASS_ART: Record<string, string> = {
   wizard:   "/art/wizard.jpg",
 };
 
-// object-position per class to frame the character correctly
 const CLASS_ART_POSITION: Record<string, string> = {
   bard:     "object-top",
   druid:    "object-top",
-  guardian: "object-[center_35%]",  // warrior below the sky
+  guardian: "object-[center_35%]",
   ranger:   "object-top",
   rogue:    "object-top",
   seraph:   "object-[center_10%]",
@@ -53,39 +52,43 @@ const domainColors: Record<string, string> = {
 export function StepClass({ data, onChange }: Props) {
   const { t } = useTranslation();
 
-  const selectedClass = data.classKey ? CLASS_DEFS[data.classKey] : null;
-  const subclasses = selectedClass
-    ? selectedClass.subclasses.map((sk) => SUBCLASS_DEFS[sk])
-    : [];
-
   return (
-    <div className="flex flex-col gap-6">
-      {/* ── Class grid ──────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+    <div className="flex flex-col gap-4">
+      {/* items-start: each card stays its natural height — selected card expands without stretching neighbors */}
+      <div className="grid grid-cols-2 items-start gap-3 sm:grid-cols-3">
         {CLASSES.map((key) => {
           const def = CLASS_DEFS[key];
           const art = CLASS_ART[key];
           const isSelected = data.classKey === key;
+          const subclasses = def.subclasses.map((sk) => SUBCLASS_DEFS[sk]);
+          const hasSubclass = isSelected && data.subclassKey !== null;
 
           return (
-            <button
+            // div instead of <button> so nested <button> subclass pills are valid HTML
+            <div
               key={key}
-              type="button"
+              role="button"
+              tabIndex={0}
               onClick={() =>
                 onChange({ classKey: key as ClassKey, subclassKey: null, domainCardIds: [] })
               }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onChange({ classKey: key as ClassKey, subclassKey: null, domainCardIds: [] });
+                }
+              }}
               className={[
-                "group relative flex min-h-[180px] flex-col overflow-hidden rounded-2xl border text-left",
+                "group relative flex cursor-pointer select-none flex-col overflow-hidden rounded-2xl border text-left",
                 "transition-all duration-150 active:scale-[0.97]",
                 isSelected
-                  ? [
-                      "border-gold",
-                      "shadow-[0_0_0_1px_rgba(217,164,65,0.5),0_0_18px_-4px_rgba(217,164,65,0.45),0_4px_24px_-8px_rgba(217,164,65,0.3)]",
-                    ].join(" ")
+                  ? hasSubclass
+                    ? "border-gold shadow-[0_0_0_1px_rgba(217,164,65,0.6),0_0_24px_-4px_rgba(217,164,65,0.5),0_4px_24px_-8px_rgba(217,164,65,0.3)]"
+                    : "border-gold/70 shadow-[0_0_0_1px_rgba(217,164,65,0.4),0_0_18px_-4px_rgba(217,164,65,0.35)]"
                   : "border-border bg-surface-2/40 hover:border-border-strong",
               ].join(" ")}
             >
-              {/* Art hero */}
+              {/* Art */}
               {art ? (
                 <div className="relative h-[110px] w-full shrink-0 sm:h-[120px]">
                   <Image
@@ -95,91 +98,130 @@ export function StepClass({ data, onChange }: Props) {
                     className={`object-cover ${CLASS_ART_POSITION[key] ?? "object-top"} transition-transform duration-300 group-hover:scale-[1.04]`}
                     sizes="(max-width: 640px) 50vw, 33vw"
                   />
-                  {/* Darken top edges (hides white PDF backgrounds) */}
                   <div className="absolute inset-0 bg-gradient-to-b from-[#17131f]/70 via-transparent to-transparent" />
-                  {/* Fade bottom so info merges seamlessly */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#17131f] via-[#17131f]/30 to-transparent" />
-                  {/* Gold shimmer on selection */}
                   {isSelected && (
                     <div className="absolute inset-0 bg-gradient-to-t from-gold/[0.10] via-transparent to-transparent" />
                   )}
                 </div>
               ) : (
-                /* Fallback when no art */
                 <div className="h-[110px] w-full shrink-0 bg-surface-2/60 sm:h-[120px]" />
               )}
 
-              {/* Info area */}
+              {/* Class info */}
               <div className="flex flex-1 flex-col gap-1.5 px-3 pb-3 pt-2">
                 <span className="font-display text-sm font-semibold leading-tight text-foreground">
                   {t(`dh.class.${key}`)}
                 </span>
-
-                {/* Domain pills */}
                 <div className="flex flex-wrap gap-1">
                   {def.domains.map((d) => (
                     <span
                       key={d}
-                      className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${
-                        domainColors[d] ?? "text-muted bg-surface"
-                      }`}
+                      className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${domainColors[d] ?? "text-muted bg-surface"}`}
                     >
                       {t(`dh.domain.${d}`)}
                     </span>
                   ))}
                 </div>
-
-                {/* Stats */}
                 <div className="flex gap-3 text-[11px] text-muted">
-                  <span>
-                    {t("wizard.class.evasion")} {def.evasion}
-                  </span>
-                  <span>
-                    {t("wizard.class.hp")} {def.hp}
-                  </span>
+                  <span>{t("wizard.class.evasion")} {def.evasion}</span>
+                  <span>{t("wizard.class.hp")} {def.hp}</span>
                 </div>
               </div>
 
-              {/* Selected checkmark */}
+              {/* ── Subclass expand panel ────────────────────────────────────
+                  Water-drop animation: grid-template-rows 0fr→1fr with spring
+                  cubic-bezier(0.22, 1.4, 0.36, 1) → expands fast, tiny bounce
+                  Content fades in after 60ms delay with stagger per pill       */}
+              <div
+                aria-hidden={!isSelected}
+                style={{
+                  display: "grid",
+                  gridTemplateRows: isSelected ? "1fr" : "0fr",
+                  transition: isSelected
+                    ? "grid-template-rows 280ms cubic-bezier(0.22, 1.4, 0.36, 1)"
+                    : "grid-template-rows 200ms cubic-bezier(0.4, 0, 0.6, 1)",
+                }}
+              >
+                <div className="overflow-hidden">
+                  <div
+                    role="presentation"
+                    onClick={(e) => e.stopPropagation()}
+                    className="border-t border-gold/20 bg-gold/[0.04] px-2.5 pb-2.5 pt-2"
+                  >
+                    <p
+                      className="mb-1.5 text-[9px] font-bold uppercase tracking-widest text-gold/50"
+                      style={{
+                        opacity: isSelected ? 1 : 0,
+                        transition: isSelected ? "opacity 160ms ease 60ms" : "opacity 80ms ease",
+                      }}
+                    >
+                      {t("wizard.class.subclassTitle")}
+                    </p>
+                    <div className="flex flex-col gap-1.5">
+                      {subclasses.map((sub, i) => {
+                        const subSelected = data.subclassKey === sub.key;
+                        const delay = isSelected ? 80 + i * 50 : 0;
+                        return (
+                          <div
+                            key={sub.key}
+                            style={{
+                              opacity: isSelected ? 1 : 0,
+                              transform: isSelected ? "translateY(0)" : "translateY(-4px)",
+                              transition: isSelected
+                                ? `opacity 160ms ease ${delay}ms, transform 220ms cubic-bezier(0.22, 1.4, 0.36, 1) ${delay}ms`
+                                : "opacity 80ms ease, transform 80ms ease",
+                            }}
+                          >
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onChange({ subclassKey: sub.key as SubclassKey });
+                              }}
+                              className={[
+                                "w-full rounded-xl px-2.5 py-2.5 text-left text-xs transition-all duration-150 active:scale-[0.97]",
+                                subSelected
+                                  ? "border border-gold/50 bg-gold/15 text-gold shadow-[inset_0_0_0_1px_rgba(217,164,65,0.2)]"
+                                  : "border border-border/40 bg-surface/30 text-muted hover:border-gold/30 hover:text-foreground",
+                              ].join(" ")}
+                            >
+                              <span className="block font-display font-semibold leading-tight">
+                                {t(`dh.subclass.${sub.key}`)}
+                              </span>
+                              {sub.spellcastTrait && (
+                                <span className="mt-0.5 block text-[10px] opacity-60">
+                                  {t("wizard.class.spellcast", {
+                                    trait: t(`dh.trait.${sub.spellcastTrait}`),
+                                  })}
+                                </span>
+                              )}
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Checkmark: solid gold when subclass also selected, dimmed when only class */}
               {isSelected && (
-                <span className="absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full bg-gold text-[10px] font-bold text-[#2a1d05] shadow-[0_0_8px_rgba(217,164,65,0.6)]">
+                <span
+                  className={[
+                    "absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold transition-all duration-200",
+                    hasSubclass
+                      ? "bg-gold text-[#2a1d05] shadow-[0_0_10px_rgba(217,164,65,0.7)]"
+                      : "bg-gold/30 text-gold",
+                  ].join(" ")}
+                >
                   ✓
                 </span>
               )}
-            </button>
+            </div>
           );
         })}
       </div>
-
-      {/* ── Subclass section — animates in after class selection ────────── */}
-      {selectedClass && data.classKey && (
-        <div className="dh-rise flex flex-col gap-4">
-          {/* Subclass label */}
-          <p className="text-sm font-semibold uppercase tracking-wider text-foreground/70">
-            {t("wizard.class.subclassTitle")}
-          </p>
-
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {subclasses.map((sub) => (
-              <SelectionCard
-                key={sub.key}
-                selected={data.subclassKey === sub.key}
-                onClick={() => onChange({ subclassKey: sub.key })}
-                title={t(`dh.subclass.${sub.key}`)}
-                description={t(`dh.subclass.${sub.key}_desc`)}
-              >
-                {sub.spellcastTrait && (
-                  <span className="mt-1 text-[11px] text-fear-bright">
-                    {t("wizard.class.spellcast", {
-                      trait: t(`dh.trait.${sub.spellcastTrait}`),
-                    })}
-                  </span>
-                )}
-              </SelectionCard>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
