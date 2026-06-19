@@ -27,15 +27,15 @@ const CLASS_ART: Record<string, string> = {
 };
 
 const CLASS_ART_POSITION: Record<string, string> = {
-  bard:     "object-top",
-  druid:    "object-top",
-  guardian: "object-[center_35%]",
-  ranger:   "object-top",
-  rogue:    "object-top",
-  seraph:   "object-[center_10%]",
-  sorcerer: "object-top",
-  warrior:  "object-top",
-  wizard:   "object-top",
+  bard:     "top",
+  druid:    "top",
+  guardian: "center 35%",
+  ranger:   "top",
+  rogue:    "top",
+  seraph:   "center 10%",
+  sorcerer: "top",
+  warrior:  "top",
+  wizard:   "top",
 };
 
 const domainColors: Record<string, string> = {
@@ -111,8 +111,9 @@ export function StepClass({ data, onChange }: Props) {
                     src={art}
                     alt=""
                     fill
-                    className={`object-cover ${CLASS_ART_POSITION[key] ?? "object-top"} transition-transform duration-300 group-hover:scale-[1.04]`}
                     sizes="(max-width: 1024px) 50vw, 33vw"
+                    className="transition-transform duration-300 group-hover:scale-[1.04]"
+                    style={{ objectFit: "cover", objectPosition: CLASS_ART_POSITION[key] ?? "top" }}
                   />
                   {/* Top vignette */}
                   <div className="absolute inset-0 bg-gradient-to-b from-[#17131f]/50 via-transparent to-transparent" />

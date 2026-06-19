@@ -43,7 +43,8 @@ export function HomeContent({ username }: { username: string }) {
             alt="Daggerheart"
             fill
             priority
-            className="object-cover object-center scale-[1.04]"
+            className="scale-[1.04]"
+            style={{ objectFit: "cover", objectPosition: "center" }}
             sizes="(max-width: 768px) 100vw, 700px"
           />
           {/* gradient overlay for readability */}
