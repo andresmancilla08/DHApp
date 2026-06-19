@@ -88,7 +88,7 @@
       "namePlaceholder": "e.g. Lyra Ashborn",
       "nameHint": "You can change this later.",
       "pronouns": "Pronouns",
-      "pronounsPlaceholder": "e.g. she/her, they/them",
+      "pronounsPlaceholder": "e.g. she/her, he/him",
       "pronounsHint": "Optional."
     },
     "class": {

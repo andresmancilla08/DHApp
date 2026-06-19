@@ -88,7 +88,7 @@
       "namePlaceholder": "ej. Lyra Ceniza",
       "nameHint": "Puedes cambiarlo después.",
       "pronouns": "Pronombres",
-      "pronounsPlaceholder": "ej. ella/la, él/lo, elle/le",
+      "pronounsPlaceholder": "ej. ella/la, él/lo",
       "pronounsHint": "Opcional."
     },
     "class": {
