@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: m.title,
     description: m.description,
     manifest: "/manifest.webmanifest",
-    appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "DHApp" },
+    appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Grimheart" },
   };
 }
 

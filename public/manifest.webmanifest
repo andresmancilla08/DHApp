@@ -1,6 +1,6 @@
 {
-  "name": "DHApp — Daggerheart Character Sheets",
-  "short_name": "DHApp",
+  "name": "Grimheart — Daggerheart Character Sheets",
+  "short_name": "Grimheart",
   "description": "Create and manage your Daggerheart characters.",
   "start_url": "/",
   "display": "standalone",

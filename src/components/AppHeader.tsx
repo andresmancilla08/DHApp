@@ -8,7 +8,7 @@ export function AppHeader({ username }: { username: string }) {
       <div className="mx-auto flex h-14 w-full max-w-screen-md items-center justify-between px-4 pb-2">
         <span className="flex items-center gap-2 font-display text-lg font-semibold tracking-wide text-foreground">
           <DaggerheartMark className="h-7 w-7" />
-          DHApp
+          Grimheart
         </span>
         <AppMenu username={username} />
       </div>
