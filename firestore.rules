@@ -1,0 +1,13 @@
+rules_version = '2';
+
+// DHApp accesses Firestore exclusively from the server via the Firebase Admin
+// SDK, which bypasses these rules. No client (browser) ever talks to Firestore
+// directly, so we deny all client access. This is the most secure posture:
+// every read/write goes through our authenticated server actions.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
