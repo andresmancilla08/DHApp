@@ -427,21 +427,21 @@
       "veryFar": "V.Far"
     },
     "equipFeature": {
-      "reliable":   "Reliable: +1 to attack rolls",
-      "massive":    "Massive: −1 Evasion; extra damage die on hit (discard lowest)",
-      "heavy":      "Heavy: −1 to Evasion",
-      "quick":      "Quick: mark Stress to target another creature",
+      "reliable": "Reliable: +1 to attack rolls",
+      "massive": "Massive: −1 Evasion; extra damage die on hit (discard lowest)",
+      "heavy": "Heavy: −1 to Evasion",
+      "quick": "Quick: mark Stress to target another creature",
       "cumbersome": "Cumbersome: −1 to Finesse",
-      "flexible":   "Flexible: +1 to Evasion",
-      "returning":  "Returning: returns to hand after attack",
-      "versatile":  "Versatile: also Presence/Melee/d8",
-      "powerful":   "Powerful: extra damage die (discard lowest)",
-      "paired":     "Paired: +2 to primary damage within Melee",
+      "flexible": "Flexible: +1 to Evasion",
+      "returning": "Returning: returns to hand after attack",
+      "versatile": "Versatile: also Presence/Melee/d8",
+      "powerful": "Powerful: extra damage die (discard lowest)",
+      "paired": "Paired: +2 to primary damage within Melee",
       "protective": "Protective: +1 to Armor Score",
-      "barrier":    "Barrier: +2 Armor Score; −1 Evasion",
-      "startling":  "Startling: force adjacent foes to Close",
-      "hooked":     "Hooked: pull target to Melee on hit",
-      "veryHeavy":  "Very Heavy: −2 Evasion; −1 Agility"
+      "barrier": "Barrier: +2 Armor Score; −1 Evasion",
+      "startling": "Startling: force adjacent foes to Close",
+      "hooked": "Hooked: pull target to Melee on hit",
+      "veryHeavy": "Very Heavy: −2 Evasion; −1 Agility"
     }
   },
   "wiki": {
@@ -473,6 +473,102 @@
       "rests_desc": "Short and long rests restore HP, Stress, and refresh abilities.",
       "conditions": "Conditions",
       "conditions_desc": "Vulnerable, Restrained, Hidden, and other temporary states affecting characters."
+    }
+  },
+  "levelUp": {
+    "title": "Level Up",
+    "button": "Level Up",
+    "back": "Back",
+    "comingSoon": "Coming soon",
+    "soon": "Soon",
+    "boostedLabel": "Already boosted",
+    "continue": "Continue",
+    "levelLabel": "Level {{level}}",
+    "chooseInstruction": "Choose 2 advancements to apply.",
+    "options": {
+      "boostTraits": {
+        "title": "Boost 2 Traits +1",
+        "description": "Choose 2 unmarked traits to permanently increase by +1."
+      },
+      "hp": {
+        "title": "+1 HP",
+        "description": "Permanently gain one Hit Point."
+      },
+      "stress": {
+        "title": "+1 Stress",
+        "description": "Permanently gain one Stress slot."
+      },
+      "experiences": {
+        "title": "+1 to 2 Experiences",
+        "description": "Increase two experience modifiers by +1."
+      },
+      "domainCard": {
+        "title": "New Domain Card",
+        "description": "Choose a card from your class domain."
+      },
+      "evasion": {
+        "title": "+1 Evasion",
+        "description": "Permanently increase your Evasion."
+      },
+      "proficiency": {
+        "title": "+1 Proficiency",
+        "description": "Permanently increase your Proficiency."
+      },
+      "comingSoon1": {
+        "title": "Subclass Upgrade",
+        "description": "Unlock an advanced subclass feature."
+      },
+      "comingSoon2": {
+        "title": "Multiclass",
+        "description": "Add a card from a different class domain."
+      }
+    },
+    "boostTraits": {
+      "title": "Boost 2 Traits",
+      "instruction": "Select 2 unmarked traits to permanently increase by +1.",
+      "alreadyBoosted": "Already boosted",
+      "confirm": "Confirm Selection"
+    },
+    "pickCard": {
+      "title": "New Domain Card",
+      "instruction": "Choose 1 card from your class domains.",
+      "recall": "Recall {{cost}}",
+      "confirm": "Confirm Card",
+      "empty": "No cards available at this level."
+    },
+    "confirm": {
+      "title": "Level {{level}}",
+      "subtitle": "Advancing to",
+      "advancements": "Your advancements",
+      "apply": "Apply Level Up",
+      "applying": "Applying…"
+    },
+    "achievement": {
+      "title": "Level Achievement",
+      "badge": "Auto",
+      "description": "At level {{level}}: New Experience +2 · +1 Proficiency."
+    },
+    "achievement_2": "New Experience +2 · +1 Proficiency",
+    "achievement_5": "New Experience +2 · +1 Proficiency · Trait marks cleared",
+    "achievement_8": "New Experience +2 · +1 Proficiency · Trait marks cleared",
+    "summary": {
+      "boostTraits": "+1 to {{traits}}",
+      "hp": "+1 HP",
+      "stress": "+1 Stress",
+      "experiences": "+1 to 2 Experiences",
+      "domainCard": "New Card: {{card}}",
+      "evasion": "+1 Evasion",
+      "proficiency": "+1 Proficiency"
+    },
+    "errors": {
+      "needTwo": "You must select exactly 2 advancements.",
+      "unknown": "Something went wrong. Please try again."
+    },
+    "done": {
+      "title": "Level Up Complete",
+      "congratulations": "Level {{level}}!",
+      "description": "Your character has grown stronger. The path ahead awaits.",
+      "viewCharacter": "View Character"
     }
   }
 }

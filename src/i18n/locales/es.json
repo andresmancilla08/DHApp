@@ -427,21 +427,21 @@
       "veryFar": "Muy Lej."
     },
     "equipFeature": {
-      "reliable":   "Confiable: +1 a las tiradas de ataque",
-      "massive":    "Masivo: −1 Evasión; dado de daño extra al impactar (descarta el menor)",
-      "heavy":      "Pesado: −1 a Evasión",
-      "quick":      "Rápido: marca Estrés para elegir otra criatura como objetivo",
+      "reliable": "Confiable: +1 a las tiradas de ataque",
+      "massive": "Masivo: −1 Evasión; dado de daño extra al impactar (descarta el menor)",
+      "heavy": "Pesado: −1 a Evasión",
+      "quick": "Rápido: marca Estrés para elegir otra criatura como objetivo",
       "cumbersome": "Voluminoso: −1 a Destreza",
-      "flexible":   "Flexible: +1 a Evasión",
-      "returning":  "Regresante: vuelve a la mano tras el ataque",
-      "versatile":  "Versátil: también Presencia/Cuerpo/d8",
-      "powerful":   "Poderoso: dado de daño extra (descarta el menor)",
-      "paired":     "Emparejado: +2 al daño principal en Cuerpo a cuerpo",
+      "flexible": "Flexible: +1 a Evasión",
+      "returning": "Regresante: vuelve a la mano tras el ataque",
+      "versatile": "Versátil: también Presencia/Cuerpo/d8",
+      "powerful": "Poderoso: dado de daño extra (descarta el menor)",
+      "paired": "Emparejado: +2 al daño principal en Cuerpo a cuerpo",
       "protective": "Protector: +1 a Puntuación de Armadura",
-      "barrier":    "Barrera: +2 Armadura; −1 Evasión",
-      "startling":  "Perturbador: fuerza a los enemigos adyacentes a alejarse",
-      "hooked":     "Enganchado: atrae al objetivo a Cuerpo a cuerpo al impactar",
-      "veryHeavy":  "Muy Pesado: −2 Evasión; −1 Agilidad"
+      "barrier": "Barrera: +2 Armadura; −1 Evasión",
+      "startling": "Perturbador: fuerza a los enemigos adyacentes a alejarse",
+      "hooked": "Enganchado: atrae al objetivo a Cuerpo a cuerpo al impactar",
+      "veryHeavy": "Muy Pesado: −2 Evasión; −1 Agilidad"
     }
   },
   "wiki": {
@@ -473,6 +473,102 @@
       "rests_desc": "Los descansos cortos y largos restauran PV, Estrés y refrescan habilidades.",
       "conditions": "Condiciones",
       "conditions_desc": "Vulnerable, Restringido, Oculto y otros estados temporales que afectan a los personajes."
+    }
+  },
+  "levelUp": {
+    "title": "Subir Nivel",
+    "button": "Subir Nivel",
+    "back": "Atrás",
+    "comingSoon": "Próximamente",
+    "soon": "Pronto",
+    "boostedLabel": "Ya aumentado",
+    "continue": "Continuar",
+    "levelLabel": "Nivel {{level}}",
+    "chooseInstruction": "Elige 2 mejoras para aplicar.",
+    "options": {
+      "boostTraits": {
+        "title": "Aumentar 2 Rasgos +1",
+        "description": "Elige 2 rasgos no marcados para aumentar permanentemente en +1."
+      },
+      "hp": {
+        "title": "+1 PV",
+        "description": "Ganar un Punto de Vida permanente."
+      },
+      "stress": {
+        "title": "+1 Estrés",
+        "description": "Ganar un espacio de Estrés permanente."
+      },
+      "experiences": {
+        "title": "+1 a 2 Experiencias",
+        "description": "Aumentar dos modificadores de experiencia en +1."
+      },
+      "domainCard": {
+        "title": "Nueva Carta de Dominio",
+        "description": "Elige una carta del dominio de tu clase."
+      },
+      "evasion": {
+        "title": "+1 Evasión",
+        "description": "Aumentar tu Evasión permanentemente."
+      },
+      "proficiency": {
+        "title": "+1 Competencia",
+        "description": "Aumentar tu Competencia permanentemente."
+      },
+      "comingSoon1": {
+        "title": "Mejora de Subclase",
+        "description": "Desbloquea una característica avanzada de subclase."
+      },
+      "comingSoon2": {
+        "title": "Multiclase",
+        "description": "Agrega una carta de otro dominio de clase."
+      }
+    },
+    "boostTraits": {
+      "title": "Aumentar 2 Rasgos",
+      "instruction": "Selecciona 2 rasgos no marcados para aumentar permanentemente en +1.",
+      "alreadyBoosted": "Ya aumentado",
+      "confirm": "Confirmar Selección"
+    },
+    "pickCard": {
+      "title": "Nueva Carta de Dominio",
+      "instruction": "Elige 1 carta de los dominios de tu clase.",
+      "recall": "Recordar {{cost}}",
+      "confirm": "Confirmar Carta",
+      "empty": "No hay cartas disponibles en este nivel."
+    },
+    "confirm": {
+      "title": "Nivel {{level}}",
+      "subtitle": "Avanzando a",
+      "advancements": "Tus mejoras",
+      "apply": "Aplicar Subida de Nivel",
+      "applying": "Aplicando…"
+    },
+    "achievement": {
+      "title": "Logro de Nivel",
+      "badge": "Auto",
+      "description": "En nivel {{level}}: Nueva Experiencia +2 · +1 Competencia."
+    },
+    "achievement_2": "Nueva Experiencia +2 · +1 Competencia",
+    "achievement_5": "Nueva Experiencia +2 · +1 Competencia · Marcas limpiadas",
+    "achievement_8": "Nueva Experiencia +2 · +1 Competencia · Marcas limpiadas",
+    "summary": {
+      "boostTraits": "+1 a {{traits}}",
+      "hp": "+1 PV",
+      "stress": "+1 Estrés",
+      "experiences": "+1 a 2 Experiencias",
+      "domainCard": "Nueva Carta: {{card}}",
+      "evasion": "+1 Evasión",
+      "proficiency": "+1 Competencia"
+    },
+    "errors": {
+      "needTwo": "Debes seleccionar exactamente 2 mejoras.",
+      "unknown": "Algo salió mal. Por favor intenta de nuevo."
+    },
+    "done": {
+      "title": "Subida de Nivel Completa",
+      "congratulations": "¡Nivel {{level}}!",
+      "description": "Tu personaje ha crecido en poder. El camino sigue adelante.",
+      "viewCharacter": "Ver Personaje"
     }
   }
 }

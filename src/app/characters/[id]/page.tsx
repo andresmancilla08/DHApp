@@ -2,7 +2,7 @@ import { redirect, notFound } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
 import { getCharacter } from "@/lib/characters/actions";
 import { SubHeader } from "@/components/SubHeader";
-import { CharacterSheetClient } from "@/components/CharacterSheetClient";
+import { CharacterPageClient } from "@/components/CharacterPageClient";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -22,7 +22,7 @@ export default async function CharacterPage({ params }: Props) {
       <div className="dh-grain" aria-hidden />
       <SubHeader backHref="/characters" />
       <main className="z-10 flex-1">
-        <CharacterSheetClient character={character} />
+        <CharacterPageClient character={character} />
       </main>
     </div>
   );

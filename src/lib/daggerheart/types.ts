@@ -125,6 +125,7 @@ export interface Character {
   armorScore: number;
 
   experiences: Experience[];
+  boostedTraits: TraitKey[];
 
   // Domain cards: active loadout vs. stored vault.
   loadout: string[]; // DomainCard ids
