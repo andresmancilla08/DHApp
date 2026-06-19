@@ -55,7 +55,7 @@ export function StepClass({ data, onChange }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {/* 2-col on mobile, 3-col on desktop */}
-      <div className="grid grid-cols-2 items-start gap-3 lg:grid-cols-3">
+      <div role="radiogroup" className="grid grid-cols-2 items-start gap-3 lg:grid-cols-3">
         {CLASSES.map((key) => {
           const def = CLASS_DEFS[key];
           const art = CLASS_ART[key];
@@ -67,7 +67,8 @@ export function StepClass({ data, onChange }: Props) {
             // div instead of <button> so nested <button> subclass pills are valid HTML
             <div
               key={key}
-              role="button"
+              role="radio"
+              aria-checked={isSelected}
               tabIndex={0}
               onClick={() =>
                 onChange({ classKey: key as ClassKey, subclassKey: null, domainCardIds: [] })
@@ -81,6 +82,8 @@ export function StepClass({ data, onChange }: Props) {
               className={[
                 "group relative flex cursor-pointer select-none flex-col overflow-hidden rounded-2xl border text-left",
                 "transition-all duration-150 active:scale-[0.97]",
+                // Selected card spans full row on mobile so no empty space appears next to it
+                isSelected ? "col-span-2 lg:col-span-1" : "col-span-1",
                 isSelected
                   ? hasSubclass
                     ? "border-gold shadow-[0_0_0_1px_rgba(217,164,65,0.6),0_0_24px_-4px_rgba(217,164,65,0.5),0_4px_24px_-8px_rgba(217,164,65,0.3)]"
@@ -114,7 +117,7 @@ export function StepClass({ data, onChange }: Props) {
                       {def.domains.map((d) => (
                         <span
                           key={d}
-                          className={`rounded-md px-1.5 py-0.5 text-[9px] font-semibold backdrop-blur-sm ${domainColors[d] ?? "text-muted bg-surface"}`}
+                          className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold backdrop-blur-sm ${domainColors[d] ?? "text-muted bg-surface"}`}
                         >
                           {t(`dh.domain.${d}`)}
                         </span>
@@ -143,7 +146,7 @@ export function StepClass({ data, onChange }: Props) {
                   display: "grid",
                   gridTemplateRows: isSelected ? "1fr" : "0fr",
                   transition: isSelected
-                    ? "grid-template-rows 280ms cubic-bezier(0.22, 1.4, 0.36, 1)"
+                    ? "grid-template-rows 260ms cubic-bezier(0.16, 1, 0.3, 1)"
                     : "grid-template-rows 200ms cubic-bezier(0.4, 0, 0.6, 1)",
                 }}
               >
@@ -216,7 +219,7 @@ export function StepClass({ data, onChange }: Props) {
                     "absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold transition-all duration-200",
                     hasSubclass
                       ? "bg-gold text-[#2a1d05] shadow-[0_0_10px_rgba(217,164,65,0.7)]"
-                      : "bg-gold/30 text-gold",
+                      : "bg-gold/60 text-[#2a1d05]",
                   ].join(" ")}
                 >
                   ✓
