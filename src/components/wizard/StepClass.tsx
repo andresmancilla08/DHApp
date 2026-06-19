@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { CLASSES } from "@/lib/daggerheart/reference";
 import { CLASS_DEFS, SUBCLASS_DEFS } from "@/lib/daggerheart/classes";
@@ -12,20 +13,32 @@ interface Props {
   onChange: (patch: Partial<WizardData>) => void;
 }
 
+const CLASS_ART: Record<string, string> = {
+  bard:     "/art/bard.jpg",
+  druid:    "/art/druid.jpg",
+  guardian: "/art/guardian.jpg",
+  ranger:   "/art/ranger.jpg",
+  rogue:    "/art/rogue.jpg",
+  seraph:   "/art/seraph.jpg",
+  sorcerer: "/art/sorcerer.jpg",
+  warrior:  "/art/warrior.jpg",
+  wizard:   "/art/wizard.jpg",
+};
+
+const domainColors: Record<string, string> = {
+  arcana:   "text-purple-300 bg-purple-900/30",
+  blade:    "text-red-300 bg-red-900/30",
+  bone:     "text-stone-300 bg-stone-800/40",
+  codex:    "text-blue-300 bg-blue-900/30",
+  grace:    "text-pink-300 bg-pink-900/30",
+  midnight: "text-indigo-300 bg-indigo-900/30",
+  sage:     "text-green-300 bg-green-900/30",
+  splendor: "text-gold bg-gold/10",
+  valor:    "text-amber-300 bg-amber-900/30",
+};
+
 export function StepClass({ data, onChange }: Props) {
   const { t } = useTranslation();
-
-  const domainColors: Record<string, string> = {
-    arcana: "text-purple-300 bg-purple-900/30",
-    blade: "text-red-300 bg-red-900/30",
-    bone: "text-stone-300 bg-stone-800/40",
-    codex: "text-blue-300 bg-blue-900/30",
-    grace: "text-pink-300 bg-pink-900/30",
-    midnight: "text-indigo-300 bg-indigo-900/30",
-    sage: "text-green-300 bg-green-900/30",
-    splendor: "text-gold bg-gold/10",
-    valor: "text-amber-300 bg-amber-900/30",
-  };
 
   const selectedClass = data.classKey ? CLASS_DEFS[data.classKey] : null;
   const subclasses = selectedClass
@@ -36,7 +49,7 @@ export function StepClass({ data, onChange }: Props) {
     <div className="flex flex-col gap-6">
       {/* Class grid */}
       <div>
-        <p className="mb-3 text-sm font-semibold text-foreground/70 uppercase tracking-wider">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground/70">
           {t("wizard.class.title")}
         </p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -70,28 +83,50 @@ export function StepClass({ data, onChange }: Props) {
         </div>
       </div>
 
-      {/* Subclass selection — appears once a class is chosen */}
-      {selectedClass && (
-        <div className="dh-rise">
-          <p className="mb-3 text-sm font-semibold text-foreground/70 uppercase tracking-wider">
-            {t("wizard.class.subclassTitle")}
-          </p>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {subclasses.map((sub) => (
-              <SelectionCard
-                key={sub.key}
-                selected={data.subclassKey === sub.key}
-                onClick={() => onChange({ subclassKey: sub.key })}
-                title={t(`dh.subclass.${sub.key}`)}
-                description={t(`dh.subclass.${sub.key}_desc`)}
-              >
-                {sub.spellcastTrait && (
-                  <span className="mt-1 text-[11px] text-fear-bright">
-                    {t("wizard.class.spellcast", { trait: t(`dh.trait.${sub.spellcastTrait}`) })}
-                  </span>
-                )}
-              </SelectionCard>
-            ))}
+      {/* Class art + subclass selection — appear once a class is chosen */}
+      {selectedClass && data.classKey && (
+        <div className="dh-rise flex flex-col gap-4">
+          {/* Class illustration */}
+          {CLASS_ART[data.classKey] && (
+            <div className="relative h-40 overflow-hidden rounded-2xl">
+              <Image
+                src={CLASS_ART[data.classKey]}
+                alt=""
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 100vw, 600px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a12]/85 via-[#0c0a12]/20 to-transparent" />
+              <div className="absolute bottom-3 left-4">
+                <p className="font-display text-xl font-bold text-foreground drop-shadow-lg">
+                  {t(`dh.class.${data.classKey}`)}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Subclass picker */}
+          <div>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground/70">
+              {t("wizard.class.subclassTitle")}
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {subclasses.map((sub) => (
+                <SelectionCard
+                  key={sub.key}
+                  selected={data.subclassKey === sub.key}
+                  onClick={() => onChange({ subclassKey: sub.key })}
+                  title={t(`dh.subclass.${sub.key}`)}
+                  description={t(`dh.subclass.${sub.key}_desc`)}
+                >
+                  {sub.spellcastTrait && (
+                    <span className="mt-1 text-[11px] text-fear-bright">
+                      {t("wizard.class.spellcast", { trait: t(`dh.trait.${sub.spellcastTrait}`) })}
+                    </span>
+                  )}
+                </SelectionCard>
+              ))}
+            </div>
           </div>
         </div>
       )}

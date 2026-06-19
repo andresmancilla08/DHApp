@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { AppHeader } from "@/components/AppHeader";
 
@@ -33,12 +34,24 @@ export function HomeContent({ username }: { username: string }) {
       <AppHeader username={username} />
 
       {/* Scrollable content */}
-      <main className="dh-rise z-10 flex min-h-0 flex-1 flex-col overflow-y-auto px-5 py-8 gap-8">
-        {/* Hero */}
-        <div className="text-center">
-          <h1 className="font-display text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
-            {t("home.title")}
-          </h1>
+      <main className="dh-rise z-10 flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-4 pt-6 gap-5">
+        {/* Hero image — CoreBook cover art */}
+        <div className="relative h-48 w-full overflow-hidden rounded-2xl">
+          <Image
+            src="/art/cover.jpg"
+            alt="Daggerheart"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 700px"
+          />
+          {/* gradient overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a12]/70 via-transparent to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4">
+            <h1 className="font-display text-2xl font-bold text-foreground drop-shadow-lg">
+              {t("home.title")}
+            </h1>
+          </div>
         </div>
 
         {/* Modules grid */}
@@ -61,13 +74,13 @@ export function HomeContent({ username }: { username: string }) {
           ))}
         </div>
 
-        <footer className="z-10 text-center text-xs text-muted/50">
+        <footer className="text-center text-xs text-muted/50 pb-2">
           {t("app.tagline")}
         </footer>
       </main>
 
       {/* Fixed bottom CTA */}
-      <div className="z-10 shrink-0 px-5 pb-safe pt-3" style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}>
+      <div className="z-10 shrink-0 px-5 pt-3" style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}>
         <Link
           href="/characters/new"
           className="flex h-14 items-center justify-center rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99]"
