@@ -30,7 +30,10 @@ export function SubHeader({ backHref, onBack }: Props) {
         <IconArrowLeft size={20} stroke={1.8} />
       </button>
 
-      <Image src="/logo.png" alt="GrimHeart" width={100} height={67} className="object-contain" style={{ height: 32, width: "auto" }} />
+      <div className="flex items-center gap-2">
+        <Image src="/logo-sm.png" alt="" width={34} height={34} />
+        <span className="font-display text-base font-semibold tracking-wide text-foreground">GrimHeart</span>
+      </div>
     </div>
   );
 }
