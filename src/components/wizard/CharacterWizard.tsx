@@ -3,6 +3,7 @@
 import { useState, useTransition, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
+import { IconX } from "@tabler/icons-react";
 import { SubHeader } from "@/components/SubHeader";
 import { AppDialog } from "@/components/ui/AppDialog";
 import { TRAIT_ARRAY, CLASS_SUGGESTED_TRAITS } from "@/lib/daggerheart/reference";
@@ -126,9 +127,10 @@ export function CharacterWizard() {
           <button
             type="button"
             onClick={() => setCancelOpen(true)}
-            className="text-sm font-semibold text-danger/80 transition hover:text-danger active:scale-95"
+            aria-label={t("wizard.cancel")}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-surface-2/40 text-muted transition hover:text-foreground active:scale-95"
           >
-            {t("wizard.cancel")}
+            <IconX size={20} stroke={1.8} />
           </button>
         }
       />
