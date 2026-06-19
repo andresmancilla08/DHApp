@@ -109,7 +109,7 @@ export function StepDomainCards({ data, onChange }: Props) {
               >
                 {/* CoreBook illustration — brighter, centered on the character */}
                 <Image
-                  src={`/art/domains/${card.domain}.jpg`}
+                  src={`/art/cards/${card.id}.jpg`}
                   alt=""
                   fill
                   sizes="(max-width: 640px) 100vw, 50vw"

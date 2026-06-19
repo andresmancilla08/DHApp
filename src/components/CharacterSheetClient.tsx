@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { Character } from "@/lib/daggerheart/types";
 import { CARDS_BY_ID } from "@/lib/daggerheart/cards";
@@ -81,9 +82,21 @@ export function CharacterSheetClient({ character: c }: { character: Character })
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">{t("wizard.review.cards")}</p>
           <div className="flex flex-col gap-3">
             {cards.map((card) => (
-              <div key={card.id} className="rounded-xl border border-border/60 p-3">
-                <p className="font-display text-sm font-semibold text-foreground">{t(`dh.card.${card.id}`)}</p>
-                <p className="mt-1 text-xs text-muted">{t(`dh.card.${card.id}_desc`)}</p>
+              <div key={card.id} className="overflow-hidden rounded-xl border border-border/60">
+                <div className="relative h-20 w-full">
+                  <Image
+                    src={`/art/cards/${card.id}.jpg`}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    style={{ objectFit: "cover", objectPosition: "center 20%", filter: "brightness(0.75) saturate(1.1)" }}
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-surface-2 to-transparent" />
+                </div>
+                <div className="px-3 pb-3 pt-2">
+                  <p className="font-display text-sm font-semibold text-foreground">{t(`dh.card.${card.id}`)}</p>
+                  <p className="mt-1 text-xs text-muted">{t(`dh.card.${card.id}_desc`)}</p>
+                </div>
               </div>
             ))}
           </div>
