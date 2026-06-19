@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
 import { listCharacters } from "@/lib/characters/actions";
-import { AppHeader } from "@/components/AppHeader";
+import { SubHeader } from "@/components/SubHeader";
 import { CharacterListClient } from "@/components/CharacterListClient";
 
 export default async function CharactersPage() {
@@ -14,7 +14,7 @@ export default async function CharactersPage() {
     <div className="relative flex min-h-dvh flex-col text-foreground">
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
-      <AppHeader username={session.username} />
+      <SubHeader backHref="/" />
       <main className="relative z-10 flex-1 overflow-y-auto px-5 py-6">
         <CharacterListClient characters={characters} />
       </main>
