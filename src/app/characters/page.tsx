@@ -11,7 +11,7 @@ export default async function CharactersPage() {
   const characters = await listCharacters();
 
   return (
-    <div className="relative flex min-h-dvh flex-col text-foreground">
+    <div className="relative flex h-dvh flex-col overflow-hidden text-foreground">
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
       <SubHeader backHref="/" />

@@ -17,11 +17,11 @@ export default async function CharacterPage({ params }: Props) {
   if (!character) notFound();
 
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-x-hidden text-foreground">
+    <div className="relative flex h-dvh flex-col overflow-hidden text-foreground">
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
       <SubHeader backHref="/characters" />
-      <main className="z-10 flex-1">
+      <main className="z-10 flex-1 overflow-y-auto">
         <CharacterPageClient character={character} />
       </main>
     </div>

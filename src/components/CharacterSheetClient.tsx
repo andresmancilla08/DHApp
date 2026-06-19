@@ -9,10 +9,9 @@ import { WEAPONS_BY_ID, ARMOR_BY_ID } from "@/lib/daggerheart/equipment";
 // NOTA: boostedTraits ya existe en Character; cast defensivo por si otro agente lo modifica
 interface Props {
   character: Character;
-  onLevelUp?: () => void;
 }
 
-export function CharacterSheetClient({ character: c, onLevelUp }: Props) {
+export function CharacterSheetClient({ character: c }: Props) {
   const { t } = useTranslation();
 
   const weapons = c.equipment.weapons.map((w) => WEAPONS_BY_ID[w.id]).filter(Boolean);
@@ -61,8 +60,8 @@ export function CharacterSheetClient({ character: c, onLevelUp }: Props) {
         </div>
       </div>
 
-      {/* Content sections */}
-      <div className="flex flex-col gap-5 pb-6">
+      {/* Content sections — extra bottom padding for fixed level-up CTA */}
+      <div className="flex flex-col gap-5 pb-28">
         {/* ── Stats ── */}
         <div className="grid grid-cols-5 gap-2">
           {[
@@ -216,29 +215,6 @@ export function CharacterSheetClient({ character: c, onLevelUp }: Props) {
           </div>
         )}
 
-        {/* ── Level Up CTA ── */}
-        {c.level < 10 && onLevelUp && (
-          <button
-            type="button"
-            onClick={onLevelUp}
-            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-gold/90 to-[#c8922e] py-3.5 text-sm font-bold text-[#0c0a12] shadow-[0_0_20px_rgba(217,164,65,0.25)] transition-all duration-150 active:scale-[0.985]"
-            aria-label={t("levelUp.button")}
-          >
-            <svg
-              aria-hidden="true"
-              className="h-4 w-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                clipRule="evenodd"
-              />
-            </svg>
-            {t("levelUp.button")}
-          </button>
-        )}
       </div>
     </div>
   );
