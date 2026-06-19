@@ -141,15 +141,6 @@ export function CharacterWizard() {
       {/* Bottom nav */}
       <div className="shrink-0 border-t border-border bg-surface/80 px-5 pb-safe pt-3 backdrop-blur-sm">
         <div className="flex gap-3">
-          {step > 0 && (
-            <button
-              type="button"
-              onClick={() => setStep(step - 1)}
-              className="h-12 flex-1 rounded-full border border-border text-sm font-medium text-muted transition hover:border-border-strong hover:text-foreground active:scale-[0.99]"
-            >
-              {t("wizard.back")}
-            </button>
-          )}
           <button
             type="button"
             disabled={!canContinue() || isPending}
