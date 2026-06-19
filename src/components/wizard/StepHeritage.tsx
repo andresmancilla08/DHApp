@@ -33,8 +33,17 @@ const ANCESTRY_ART: Partial<Record<AncestryKey, string>> = {
   simiah:   "/art/ancestry/simiah.jpg",
 };
 
-// Communities have no art yet — use gradient fallbacks only
-const COMMUNITY_ART: Partial<Record<CommunityKey, string>> = {};
+const COMMUNITY_ART: Partial<Record<CommunityKey, string>> = {
+  highborne:   "/art/community/highborne.jpg",
+  loreborne:   "/art/community/loreborne.jpg",
+  orderborne:  "/art/community/orderborne.jpg",
+  ridgeborne:  "/art/community/ridgeborne.jpg",
+  seaborne:    "/art/community/seaborne.jpg",
+  slyborne:    "/art/community/slyborne.jpg",
+  underborne:  "/art/community/underborne.jpg",
+  wanderborne: "/art/community/wanderborne.jpg",
+  wildborne:   "/art/community/wildborne.jpg",
+};
 
 // Themed gradient fallbacks per ancestry (used when no art image is available)
 const ANCESTRY_FALLBACK_GRADIENT: Partial<Record<AncestryKey, string>> = {
