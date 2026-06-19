@@ -47,86 +47,121 @@ export function StepClass({ data, onChange }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Class grid */}
-      <div>
-        <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground/70">
-          {t("wizard.class.title")}
-        </p>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {CLASSES.map((key) => {
-            const def = CLASS_DEFS[key];
-            return (
-              <SelectionCard
-                key={key}
-                selected={data.classKey === key}
-                onClick={() => onChange({ classKey: key as ClassKey, subclassKey: null, domainCardIds: [] })}
-                title={t(`dh.class.${key}`)}
-                description={t(`dh.class.${key}_desc`)}
-              >
-                <div className="mt-1 flex flex-wrap gap-1">
+      {/* ── Class grid ──────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {CLASSES.map((key) => {
+          const def = CLASS_DEFS[key];
+          const art = CLASS_ART[key];
+          const isSelected = data.classKey === key;
+
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() =>
+                onChange({ classKey: key as ClassKey, subclassKey: null, domainCardIds: [] })
+              }
+              className={[
+                "group relative flex min-h-[180px] flex-col overflow-hidden rounded-2xl border text-left",
+                "transition-all duration-150 active:scale-[0.97]",
+                isSelected
+                  ? [
+                      "border-gold",
+                      "shadow-[0_0_0_1px_rgba(217,164,65,0.5),0_0_18px_-4px_rgba(217,164,65,0.45),0_4px_24px_-8px_rgba(217,164,65,0.3)]",
+                    ].join(" ")
+                  : "border-border bg-surface-2/40 hover:border-border-strong",
+              ].join(" ")}
+            >
+              {/* Art hero */}
+              {art ? (
+                <div className="relative h-[110px] w-full shrink-0 sm:h-[120px]">
+                  <Image
+                    src={art}
+                    alt=""
+                    fill
+                    className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                  />
+                  {/* Fade bottom so info merges seamlessly */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#17131f] via-[#17131f]/30 to-transparent" />
+                  {/* Gold shimmer on selection */}
+                  {isSelected && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-gold/[0.10] via-transparent to-transparent" />
+                  )}
+                </div>
+              ) : (
+                /* Fallback when no art */
+                <div className="h-[110px] w-full shrink-0 bg-surface-2/60 sm:h-[120px]" />
+              )}
+
+              {/* Info area */}
+              <div className="flex flex-1 flex-col gap-1.5 px-3 pb-3 pt-2">
+                <span className="font-display text-sm font-semibold leading-tight text-foreground">
+                  {t(`dh.class.${key}`)}
+                </span>
+
+                {/* Domain pills */}
+                <div className="flex flex-wrap gap-1">
                   {def.domains.map((d) => (
                     <span
                       key={d}
-                      className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${domainColors[d] ?? "text-muted bg-surface"}`}
+                      className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${
+                        domainColors[d] ?? "text-muted bg-surface"
+                      }`}
                     >
                       {t(`dh.domain.${d}`)}
                     </span>
                   ))}
                 </div>
-                <div className="mt-1 flex gap-3 text-[11px] text-muted">
-                  <span>{t("wizard.class.evasion")} {def.evasion}</span>
-                  <span>{t("wizard.class.hp")} {def.hp}</span>
+
+                {/* Stats */}
+                <div className="flex gap-3 text-[11px] text-muted">
+                  <span>
+                    {t("wizard.class.evasion")} {def.evasion}
+                  </span>
+                  <span>
+                    {t("wizard.class.hp")} {def.hp}
+                  </span>
                 </div>
-              </SelectionCard>
-            );
-          })}
-        </div>
+              </div>
+
+              {/* Selected checkmark */}
+              {isSelected && (
+                <span className="absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full bg-gold text-[10px] font-bold text-[#2a1d05] shadow-[0_0_8px_rgba(217,164,65,0.6)]">
+                  ✓
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Class art + subclass selection — appear once a class is chosen */}
+      {/* ── Subclass section — animates in after class selection ────────── */}
       {selectedClass && data.classKey && (
         <div className="dh-rise flex flex-col gap-4">
-          {/* Class illustration */}
-          {CLASS_ART[data.classKey] && (
-            <div className="relative h-40 overflow-hidden rounded-2xl">
-              <Image
-                src={CLASS_ART[data.classKey]}
-                alt=""
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 100vw, 600px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a12]/85 via-[#0c0a12]/20 to-transparent" />
-              <div className="absolute bottom-3 left-4">
-                <p className="font-display text-xl font-bold text-foreground drop-shadow-lg">
-                  {t(`dh.class.${data.classKey}`)}
-                </p>
-              </div>
-            </div>
-          )}
+          {/* Subclass label */}
+          <p className="text-sm font-semibold uppercase tracking-wider text-foreground/70">
+            {t("wizard.class.subclassTitle")}
+          </p>
 
-          {/* Subclass picker */}
-          <div>
-            <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground/70">
-              {t("wizard.class.subclassTitle")}
-            </p>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {subclasses.map((sub) => (
-                <SelectionCard
-                  key={sub.key}
-                  selected={data.subclassKey === sub.key}
-                  onClick={() => onChange({ subclassKey: sub.key })}
-                  title={t(`dh.subclass.${sub.key}`)}
-                  description={t(`dh.subclass.${sub.key}_desc`)}
-                >
-                  {sub.spellcastTrait && (
-                    <span className="mt-1 text-[11px] text-fear-bright">
-                      {t("wizard.class.spellcast", { trait: t(`dh.trait.${sub.spellcastTrait}`) })}
-                    </span>
-                  )}
-                </SelectionCard>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {subclasses.map((sub) => (
+              <SelectionCard
+                key={sub.key}
+                selected={data.subclassKey === sub.key}
+                onClick={() => onChange({ subclassKey: sub.key })}
+                title={t(`dh.subclass.${sub.key}`)}
+                description={t(`dh.subclass.${sub.key}_desc`)}
+              >
+                {sub.spellcastTrait && (
+                  <span className="mt-1 text-[11px] text-fear-bright">
+                    {t("wizard.class.spellcast", {
+                      trait: t(`dh.trait.${sub.spellcastTrait}`),
+                    })}
+                  </span>
+                )}
+              </SelectionCard>
+            ))}
           </div>
         </div>
       )}
