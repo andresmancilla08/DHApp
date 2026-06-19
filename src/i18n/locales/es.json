@@ -71,6 +71,10 @@
     "progress": "{{current}} / {{total}}",
     "back": "Atrás",
     "continue": "Continuar",
+    "cancel": "Cancelar",
+    "cancelTitle": "¿Cancelar creación?",
+    "cancelDesc": "Si cancelas, perderás el progreso de este personaje.",
+    "cancelConfirm": "Sí, cancelar",
     "create": "Dar Vida",
     "creating": "Creando...",
     "stepNames": {

@@ -71,6 +71,10 @@
     "progress": "{{current}} / {{total}}",
     "back": "Back",
     "continue": "Continue",
+    "cancel": "Cancel",
+    "cancelTitle": "Cancel creation?",
+    "cancelDesc": "If you cancel, you'll lose the progress on this character.",
+    "cancelConfirm": "Yes, cancel",
     "create": "Bring to Life",
     "creating": "Creating...",
     "stepNames": {

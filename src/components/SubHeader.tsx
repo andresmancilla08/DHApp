@@ -7,10 +7,12 @@ import { IconArrowLeft } from "@tabler/icons-react";
 interface Props {
   backHref?: string;
   onBack?: () => void;
+  /** Replaces the logo on the right with a custom element (e.g. a cancel action). */
+  rightElement?: React.ReactNode;
 }
 
-/** Interior screen header: back arrow (left) + brand (right). */
-export function SubHeader({ backHref, onBack }: Props) {
+/** Interior screen header: back arrow (left) + brand or custom action (right). */
+export function SubHeader({ backHref, onBack, rightElement }: Props) {
   const router = useRouter();
 
   function handleBack() {
@@ -30,7 +32,7 @@ export function SubHeader({ backHref, onBack }: Props) {
         <IconArrowLeft size={20} stroke={1.8} />
       </button>
 
-      <Image src="/logo-sm.png" alt="GrimHeart" width={42} height={42} />
+      {rightElement ?? <Image src="/logo-sm.png" alt="GrimHeart" width={42} height={42} />}
     </div>
   );
 }

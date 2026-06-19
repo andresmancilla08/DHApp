@@ -4,6 +4,7 @@ import { useState, useTransition, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import { SubHeader } from "@/components/SubHeader";
+import { AppDialog } from "@/components/ui/AppDialog";
 import { TRAIT_ARRAY, CLASS_SUGGESTED_TRAITS } from "@/lib/daggerheart/reference";
 import { createCharacter } from "@/lib/characters/actions";
 import type { CreateCharacterInput } from "@/lib/characters/actions";
@@ -26,6 +27,7 @@ export function CharacterWizard() {
   const [data, setData] = useState<WizardData>(INITIAL_DATA);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [cancelOpen, setCancelOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Reset scroll to top whenever the step changes
@@ -117,8 +119,32 @@ export function CharacterWizard() {
 
   return (
     <div className="relative flex h-dvh flex-col overflow-hidden overscroll-none">
-      {/* Sub-header: back goes to prev step (or exits wizard on step 0) */}
-      <SubHeader onBack={step > 0 ? () => setStep(step - 1) : undefined} />
+      {/* Sub-header: ← goes to prev step; cancel button on right */}
+      <SubHeader
+        onBack={step > 0 ? () => setStep(step - 1) : undefined}
+        rightElement={
+          <button
+            type="button"
+            onClick={() => setCancelOpen(true)}
+            className="text-sm font-semibold text-danger/80 transition hover:text-danger active:scale-95"
+          >
+            {t("wizard.cancel")}
+          </button>
+        }
+      />
+
+      {/* Cancel confirmation dialog */}
+      <AppDialog
+        open={cancelOpen}
+        onClose={() => setCancelOpen(false)}
+        icon={<span className="text-2xl" aria-hidden>✕</span>}
+        title={t("wizard.cancelTitle")}
+        description={t("wizard.cancelDesc")}
+        primaryLabel={t("wizard.cancelConfirm")}
+        primaryVariant="danger"
+        onPrimary={() => router.push("/characters")}
+        secondaryLabel={t("wizard.back")}
+      />
 
       {/* Progress bar */}
       <div className="mx-4 mt-5 shrink-0 rounded-2xl border border-border bg-surface/90 px-4 pb-3 pt-4 backdrop-blur-sm">
