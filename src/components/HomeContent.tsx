@@ -36,13 +36,13 @@ export function HomeContent({ username }: { username: string }) {
       {/* Scrollable content */}
       <main className="dh-rise z-10 flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-4 pt-6 gap-5">
         {/* Hero image — CoreBook cover art */}
-        <div className="relative h-48 w-full overflow-hidden rounded-2xl">
+        <div className="relative h-48 w-full overflow-hidden rounded-2xl bg-[#0c0a12]">
           <Image
             src="/art/cover.jpg"
             alt="Daggerheart"
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover object-center scale-[1.04]"
             sizes="(max-width: 768px) 100vw, 700px"
           />
           {/* gradient overlay for readability */}
