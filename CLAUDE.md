@@ -15,6 +15,22 @@ DEBE salir del libro oficial `CoreBook.pdf` (raíz del repo, solo local, gitigno
   conocimiento de memoria si contradice el libro.
 - `src/lib/daggerheart/reference.ts` y los datos importados deben coincidir con el CoreBook.
 
+## Ilustraciones — REGLA OBLIGATORIA
+
+**TODA** ilustración que aparezca en la app (clases, ancestrías, comunidades, equipo, cartas
+de dominio, enemigos, etc.) **DEBE extraerse del CoreBook.pdf**. Nunca usar placeholders
+genéricos, gradientes permanentes ni generar con IA cuando el CoreBook tiene la imagen.
+
+Flujo obligatorio al implementar cualquier entidad visual nueva:
+1. Buscar la sección en `corebook.txt` con `grep` → identificar páginas.
+2. Extraer con pymupdf (`fitz`) las imágenes de esas páginas.
+3. Elegir la imagen más grande y a color (verificar con PIL que avg(max-min RGB) > 15).
+4. Comprimir: `sips -Z 800 … && sips -s formatOptions 82 …` → máx ~200KB.
+5. Guardar en `public/art/<categoría>/<clave>.jpg` y referenciar en el componente.
+
+Gradientes/fallbacks solo se permiten de forma **temporal** mientras se extrae el arte real.
+Una vez extraídas, las rutas en el mapa de arte del componente deben estar activas.
+
 ## Diseño visual (REGLAS OBLIGATORIAS)
 
 - **Mobile-first SIEMPRE.** La app se usa principalmente en móvil. Toda pantalla/componente
