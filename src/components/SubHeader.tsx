@@ -20,7 +20,7 @@ export function SubHeader({ backHref, onBack }: Props) {
   }
 
   return (
-    <div className="pt-safe flex h-14 items-center justify-between border-b border-border/60 bg-background/70 px-4 backdrop-blur-md">
+    <div className="pt-safe flex h-14 items-center justify-between bg-background/70 px-4 backdrop-blur-md">
       <button
         type="button"
         onClick={handleBack}

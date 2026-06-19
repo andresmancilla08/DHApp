@@ -105,10 +105,10 @@ export function CharacterWizard() {
   return (
     <div className="relative flex h-dvh flex-col overflow-hidden overscroll-none">
       {/* Sub-header: back to characters + logo */}
-      <SubHeader backHref="/characters" />
+      <SubHeader />
 
       {/* Progress bar */}
-      <div className="mt-3 shrink-0 border-b border-border bg-surface/80 px-5 pb-3 pt-4 backdrop-blur-sm">
+      <div className="mx-4 mt-5 shrink-0 rounded-2xl border border-border bg-surface/90 px-4 pb-3 pt-4 backdrop-blur-sm">
         <div className="flex items-center justify-between pb-2">
           <span className="font-display text-xs font-semibold uppercase tracking-widest text-gold/70">
             {t(`wizard.stepNames.${stepKey}`)}
