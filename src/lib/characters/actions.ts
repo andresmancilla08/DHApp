@@ -42,10 +42,12 @@ export async function createCharacter(input: CreateCharacterInput): Promise<{ id
   const now = new Date().toISOString();
   const id = crypto.randomUUID();
 
+  const pronouns = input.pronouns?.trim() || null;
+
   const character: Omit<Character, "id"> = {
     userId: session.uid,
     name: input.name.trim(),
-    pronouns: input.pronouns.trim() || undefined,
+    ...(pronouns ? { pronouns } : {}),
     classKey: input.classKey,
     subclassKey: input.subclassKey,
     ancestryKey: input.ancestryKey,
