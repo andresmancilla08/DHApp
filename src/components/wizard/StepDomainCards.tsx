@@ -102,12 +102,12 @@ export function StepDomainCards({ data, onChange }: Props) {
             >
               {/* ── Art area ─────────────────────────────────────────────── */}
               <div
-                className="relative flex h-[88px] items-center justify-center overflow-hidden"
+                className="relative h-[96px] overflow-hidden"
                 style={{
                   background: `linear-gradient(135deg, ${theme.from} 0%, ${theme.via} 50%, ${theme.from} 100%)`,
                 }}
               >
-                {/* CoreBook illustration */}
+                {/* CoreBook illustration — brighter, centered on the character */}
                 <Image
                   src={`/art/domains/${card.domain}.jpg`}
                   alt=""
@@ -115,28 +115,28 @@ export function StepDomainCards({ data, onChange }: Props) {
                   sizes="(max-width: 640px) 100vw, 50vw"
                   style={{
                     objectFit: "cover",
-                    objectPosition: "center top",
-                    opacity: 0.65,
-                    filter: "brightness(0.55) saturate(1.3)",
+                    objectPosition: "center 20%",
+                    opacity: 0.85,
+                    filter: "brightness(0.72) saturate(1.2)",
                   }}
                 />
-                {/* Domain color wash over the image */}
+                {/* Subtle domain tint — left/right edges only, keep center clear */}
                 <div
                   className="pointer-events-none absolute inset-0"
                   style={{
-                    background: `linear-gradient(135deg, ${theme.from}bb 0%, ${theme.via}44 60%, ${theme.from}99 100%)`,
+                    background: `linear-gradient(to right, ${theme.from}ee 0%, transparent 35%, transparent 65%, ${theme.from}ee 100%)`,
                   }}
                 />
-                {/* Domain symbol watermark */}
+                {/* Bottom fade to card content */}
+                <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-surface-2/90 to-transparent" />
+                {/* Domain symbol — bottom-left corner, subtle */}
                 <span
-                  className="pointer-events-none relative select-none font-display text-5xl leading-none"
-                  style={{ color: theme.accent, opacity: 0.35 }}
+                  className="pointer-events-none absolute bottom-2 left-3 select-none font-display text-2xl leading-none"
+                  style={{ color: theme.accent, opacity: 0.55 }}
                   aria-hidden
                 >
                   {theme.symbol}
                 </span>
-                {/* Fade to content */}
-                <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-surface-2/80 to-transparent" />
 
                 {/* Selected overlay + checkmark */}
                 {isSelected && (
