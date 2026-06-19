@@ -30,10 +30,7 @@ export function SubHeader({ backHref, onBack }: Props) {
         <IconArrowLeft size={20} stroke={1.8} />
       </button>
 
-      <div className="flex items-center gap-2">
-        <Image src="/logo-sm.png" alt="" width={34} height={34} />
-        <span className="font-display text-base font-semibold tracking-wide text-foreground">GrimHeart</span>
-      </div>
+      <Image src="/logo-sm.png" alt="GrimHeart" width={42} height={42} />
     </div>
   );
 }
