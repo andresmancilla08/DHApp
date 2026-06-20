@@ -799,12 +799,12 @@ export function WikiContent() {
 
   // Single context-aware back: category → landing, landing → home.
   const handleBack = useCallback(() => {
-    setActiveCategory((cat) => {
-      if (cat !== null) return null;
+    if (activeCategory !== null) {
+      setActiveCategory(null);
+    } else {
       router.push("/");
-      return cat;
-    });
-  }, [router]);
+    }
+  }, [activeCategory, router]);
 
   return (
     <>
