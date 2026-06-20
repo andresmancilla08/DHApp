@@ -99,13 +99,13 @@ export function JournalClient({ characterId, characterName, entries }: Props) {
 
       {/* Fixed CTA */}
       <div
-        className="fixed inset-x-0 bottom-0 z-20 flex flex-col items-center bg-gradient-to-t from-background via-background/95 to-transparent px-5 pt-8"
-        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
+        className="fixed inset-x-0 bottom-0 z-20 flex flex-col items-center bg-gradient-to-t from-background via-background/95 to-transparent px-[15px] pt-8"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 15px)" }}
       >
         <button
           type="button"
           onClick={() => setNewOpen(true)}
-          className="flex h-14 w-full max-w-lg items-center justify-center gap-2 rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright"
+          className="mt-5 flex h-14 w-full max-w-lg items-center justify-center gap-2 rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright"
         >
           <IconPlus size={18} stroke={2.5} />
           {t("journal.new")}

@@ -133,11 +133,14 @@ export function CharacterListClient({ characters }: { characters: Character[] })
       </div>
 
       {/* CTA fijo al fondo */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 flex flex-col items-center px-5 pb-safe bg-gradient-to-t from-background via-background/95 to-transparent pt-8">
-        <div className="mb-4 w-full max-w-lg">
+      <div
+        className="fixed bottom-0 left-0 right-0 z-20 flex flex-col items-center px-[15px] pt-8 bg-gradient-to-t from-background via-background/95 to-transparent"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 15px)" }}
+      >
+        <div className="w-full max-w-lg">
           <Link
             href="/characters/new"
-            className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-gold-bright to-gold text-sm font-semibold text-[#2a1d05] shadow-[0_8px_32px_-8px_rgba(217,164,65,0.65)] transition-all duration-150 hover:brightness-105 active:scale-[0.98]"
+            className="mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-gold-bright to-gold text-sm font-semibold text-[#2a1d05] shadow-[0_8px_32px_-8px_rgba(217,164,65,0.65)] transition-all duration-150 hover:brightness-105 active:scale-[0.98]"
           >
             <IconPlus size={18} stroke={2.5} />
             {t("characters.create")}

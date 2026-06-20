@@ -183,8 +183,8 @@ export function HomeContent({ username, characters }: Props) {
 
       {/* Fixed bottom CTA */}
       <div
-        className="z-10 shrink-0 px-5 pt-6"
-        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
+        className="z-10 shrink-0 px-[15px] pt-6"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 15px)" }}
       >
         <Link
           href="/characters/new"

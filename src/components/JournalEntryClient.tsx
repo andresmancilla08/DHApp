@@ -51,8 +51,8 @@ export function JournalEntryClient({ characterId, entry }: Props) {
 
   return (
     <main className="z-10 flex min-h-0 flex-1 flex-col">
-      {/* Full entry content */}
-      <article className="dh-rise min-h-0 flex-1 overflow-y-auto px-5 pb-40 pt-2">
+      {/* Fixed header — date + title + rule */}
+      <header className="dh-rise shrink-0 px-5 pt-2">
         <div className="mx-auto w-full max-w-2xl">
           <time className="text-xs font-semibold uppercase tracking-[0.14em] text-gold/70">
             {fmtDate(entry.createdAt)}
@@ -68,22 +68,26 @@ export function JournalEntryClient({ characterId, entry }: Props) {
             <span className="text-gold/60">✦</span>
             <span className="h-px flex-1 bg-gradient-to-l from-gold/50 to-transparent" />
           </div>
-          <p className="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-foreground/85">
-            {entry.body}
-          </p>
         </div>
+      </header>
+
+      {/* Scrollable body only */}
+      <article className="min-h-0 flex-1 overflow-y-auto px-5 pb-40 pt-5">
+        <p className="mx-auto w-full max-w-2xl whitespace-pre-line text-[15px] leading-relaxed text-foreground/85">
+          {entry.body}
+        </p>
       </article>
 
-      {/* Fixed actions */}
+      {/* Fixed actions (15px padding container — app rule) */}
       <div
-        className="fixed inset-x-0 bottom-0 z-20 flex flex-col items-center gap-1 bg-gradient-to-t from-background via-background/95 to-transparent px-5 pt-8"
-        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
+        className="fixed inset-x-0 bottom-0 z-20 flex flex-col items-center gap-1 bg-gradient-to-t from-background via-background/95 to-transparent px-[15px] pt-8"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 15px)" }}
       >
         <div className="flex w-full max-w-lg flex-col gap-2">
           <button
             type="button"
             onClick={() => setEditOpen(true)}
-            className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright"
+            className="mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-gold-bright to-gold font-semibold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright"
           >
             <IconPencil size={18} stroke={2} />
             {t("journal.editEntry")}
