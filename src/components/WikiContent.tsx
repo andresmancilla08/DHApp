@@ -15,6 +15,14 @@ import {
   IconHexagons,
   IconShield,
   IconBook2,
+  IconSword,
+  IconAxe,
+  IconHammer,
+  IconBow,
+  IconWand,
+  IconSparkles,
+  IconBolt,
+  IconShirt,
 } from "@tabler/icons-react";
 import { SubHeader } from "@/components/SubHeader";
 import { WIKI_ENTRIES, EQUIP_DISPLAY, type WikiCategory, type WikiEntry } from "@/lib/wiki/entries";
@@ -345,6 +353,128 @@ function WikiRuleCard({ entry, index }: { entry: WikiEntry; index: number }) {
   );
 }
 
+// ── WikiEquipCard (stat-focused card for equipment) ───────────────────────────
+
+type IconComp = React.FC<{ size?: number; stroke?: number; className?: string }>;
+
+/** Weapon/armor icon by type — CoreBook presents equipment as stat tables (no
+ *  per-item art), so we represent each piece with a type-appropriate glyph. */
+function getEquipIcon(id: string, isArmor: boolean): IconComp {
+  if (isArmor) return IconShirt;
+  if (id.includes("shield")) return IconShield;
+  if (id.includes("bow")) return IconBow;
+  if (id.includes("axe")) return IconAxe;
+  if (id.includes("hammer") || id.includes("mace")) return IconHammer;
+  if (id.includes("staff") || id.includes("wand") || id.includes("scepter"))
+    return IconWand;
+  if (id.includes("rings") || id.includes("runes") || id.includes("gauntlet"))
+    return IconSparkles;
+  if (id.includes("whip")) return IconBolt;
+  return IconSword;
+}
+
+function WikiEquipCard({ entry, index }: { entry: WikiEntry; index: number }) {
+  const { t } = useTranslation();
+  const equipId = entry.id.replace(/^equip_/, "");
+  const display = EQUIP_DISPLAY[equipId];
+
+  const delayStyle = { animationDelay: `${Math.min(index * 30, 300)}ms` };
+
+  if (!display) return null;
+  const { name, isArmor, stats } = display;
+  const Icon = getEquipIcon(equipId, isArmor);
+  const isMag = stats.dmgType === "mag";
+
+  // Magic weapons read purple (Fear), everything else gold (Hope).
+  const tone = isMag
+    ? {
+        chip: "border-fear/30 bg-fear/10 text-fear-bright",
+        pill: "border-fear/30 bg-fear/[0.12]",
+        pillVal: "text-fear-bright",
+        pillLbl: "text-fear-bright/70",
+        feature: "text-fear-bright/90",
+      }
+    : {
+        chip: "border-gold/30 bg-gold/10 text-gold",
+        pill: "border-gold/30 bg-gold/[0.12]",
+        pillVal: "text-gold-bright",
+        pillLbl: "text-gold/70",
+        feature: "text-gold/90",
+      };
+
+  // Meta line + prominent value differ for armor vs weapons.
+  const metaLine = isArmor
+    ? `${t("wizard.equipment.minor")} ${stats.minor} · ${t("wizard.equipment.severe")} ${stats.severe}`
+    : `${t(`wizard.equipment.${isMag ? "magic" : "physical"}`)} · ${t(`dh.rangeLabel.${stats.range}`)} · ${t(
+        `wizard.equipment.${stats.burden === "oneHanded" ? "oneHandedShort" : "twoHandedShort"}`,
+      )}`;
+  const pillValue = isArmor ? stats.score : stats.damage;
+  const pillLabel = isArmor
+    ? t("wizard.equipment.armorLabel")
+    : t("wizard.equipment.damage");
+
+  const feature = stats.featureKey
+    ? t(`dh.equipFeature.${stats.featureKey}`)
+    : null;
+  const spellcast = stats.requiresSpellcast === "1";
+
+  return (
+    <article
+      className="dh-rise flex flex-col gap-2.5 rounded-2xl border border-border bg-surface-2/30 p-3.5 transition-colors duration-150 hover:border-border-strong hover:bg-surface-2/45"
+      style={delayStyle}
+    >
+      <div className="flex items-center gap-3">
+        {/* Type icon */}
+        <div
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border ${tone.chip}`}
+        >
+          <Icon size={22} stroke={1.5} />
+        </div>
+
+        {/* Name + meta */}
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate font-display text-base font-semibold leading-tight tracking-wide text-foreground">
+            {name}
+          </h3>
+          <p className="mt-0.5 truncate text-xs text-muted">{metaLine}</p>
+        </div>
+
+        {/* Prominent damage / armor value — the visual anchor */}
+        <div
+          className={`flex min-w-[3.4rem] shrink-0 flex-col items-center justify-center rounded-xl border px-2.5 py-1.5 ${tone.pill}`}
+        >
+          <span className={`font-mono text-base font-bold leading-none ${tone.pillVal}`}>
+            {pillValue}
+          </span>
+          <span className={`mt-1 text-[9px] font-medium uppercase tracking-wide ${tone.pillLbl}`}>
+            {pillLabel}
+          </span>
+        </div>
+      </div>
+
+      {/* Feature + spellcast */}
+      {(feature || spellcast) && (
+        <div className="flex flex-col gap-1.5 border-t border-border/40 pt-2.5">
+          {feature && (
+            <p className={`flex gap-1.5 text-xs leading-relaxed ${tone.feature}`}>
+              <span aria-hidden className="shrink-0">
+                ★
+              </span>
+              <span>{feature}</span>
+            </p>
+          )}
+          {spellcast && (
+            <p className="flex items-center gap-1.5 text-[11px] font-medium text-fear-bright/80">
+              <span aria-hidden>✦</span>
+              {t("wizard.equipment.spellcastRequired")}
+            </p>
+          )}
+        </div>
+      )}
+    </article>
+  );
+}
+
 // ── WikiLandingCard ───────────────────────────────────────────────────────────
 
 function WikiLandingCard({
@@ -600,6 +730,12 @@ function WikiCategoryView({ category }: { category: WikiCategory }) {
             <div className="flex flex-col gap-3">
               {filtered.map((entry, index) => (
                 <WikiRuleCard key={entry.id} entry={entry} index={index} />
+              ))}
+            </div>
+          ) : category === "equipment" ? (
+            <div className="flex flex-col gap-2.5">
+              {filtered.map((entry, index) => (
+                <WikiEquipCard key={entry.id} entry={entry} index={index} />
               ))}
             </div>
           ) : (
