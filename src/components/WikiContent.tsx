@@ -329,11 +329,6 @@ function WikiLandingCard({
       {/* Bottom gradient — title zone */}
       <div className={`absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t ${meta.landingGradient}`} />
 
-      {/* Top spine accent — intensifies on hover */}
-      <div
-        className={`absolute inset-x-0 top-0 h-[3px] ${meta.spineClass} opacity-60 transition-opacity duration-[80ms] group-hover:opacity-100`}
-        aria-hidden
-      />
 
       {/* Emoji — top-left */}
       <span
