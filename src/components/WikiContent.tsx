@@ -258,7 +258,7 @@ function WikiCard({ entry, index }: { entry: WikiEntry; index: number }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={name}
-        className="dh-rise group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-2/30 text-left transition-all duration-150 active:scale-[0.98] hover:border-border-strong hover:bg-surface-2/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-inset"
+        className="dh-rise group flex h-full min-h-[140px] flex-col overflow-hidden rounded-2xl border border-border bg-surface-2/30 text-left transition-all duration-150 active:scale-[0.98] hover:border-border-strong hover:bg-surface-2/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-inset"
         style={delayStyle}
       >
         {/* Cover */}
@@ -287,14 +287,11 @@ function WikiCard({ entry, index }: { entry: WikiEntry; index: number }) {
           )}
         </div>
 
-        {/* Name + preview below image */}
-        <div className="flex flex-1 flex-col gap-1 p-3">
+        {/* Name below image */}
+        <div className="flex flex-1 items-end p-3">
           <h3 className="line-clamp-2 font-display text-sm font-semibold leading-tight tracking-wide text-foreground">
             {name}
           </h3>
-          {desc && (
-            <p className="line-clamp-2 text-xs leading-relaxed text-muted">{desc}</p>
-          )}
         </div>
       </button>
 
@@ -317,10 +314,10 @@ function WikiCard({ entry, index }: { entry: WikiEntry; index: number }) {
           {/* Category chip */}
           <div className="mb-2 flex items-center justify-center gap-2">
             <div
-              className="flex h-7 w-7 items-center justify-center rounded-lg border"
+              className="flex h-8 w-8 items-center justify-center rounded-xl border"
               style={{ backgroundColor: `${accentHex}1a`, borderColor: `${accentHex}33` }}
             >
-              <LandingIcon size={15} stroke={1.6} className={accentTextClass} />
+              <LandingIcon size={16} stroke={1.6} className={accentTextClass} />
             </div>
             <span className={`text-[11px] font-semibold uppercase tracking-[0.1em] ${accentTextClass}`}>
               {t(meta.labelKey)}
@@ -332,7 +329,7 @@ function WikiCard({ entry, index }: { entry: WikiEntry; index: number }) {
           </h2>
 
           {desc && (
-            <p className="mx-auto mt-3 max-w-[40ch] text-sm leading-relaxed text-muted">
+            <p className="mx-auto mt-4 max-w-[40ch] border-t border-border/30 pt-4 text-sm leading-relaxed text-muted">
               {desc}
             </p>
           )}
