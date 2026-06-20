@@ -312,48 +312,52 @@ function WikiEntryView({ entry }: { entry: WikiEntry }) {
   const lore = entry.loreKey ? t(entry.loreKey) : resolveEntryDesc(entry, t);
 
   return (
-    <div className="dh-rise relative z-10 flex flex-1 flex-col overflow-y-auto pb-safe">
-      {/* Hero */}
-      {artSrc && (
-        <div className="relative aspect-[4/3] max-h-[44dvh] w-full shrink-0 overflow-hidden">
-          <Image
-            src={artSrc}
-            alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, 640px"
-            className="object-cover"
-            style={{ objectPosition: "center top" }}
-            priority
-          />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
-        </div>
-      )}
-
-      {/* Content */}
-      <div className="relative z-10 mx-auto -mt-10 w-full max-w-2xl px-5 pb-10 text-center">
-        {/* Category chip */}
-        <div className="mb-2 flex items-center justify-center gap-2">
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-xl border"
-            style={{ backgroundColor: `${accentHex}1a`, borderColor: `${accentHex}33` }}
-          >
-            <LandingIcon size={16} stroke={1.6} className={accentTextClass} />
+    <div className="dh-rise relative z-10 flex flex-1 flex-col overflow-hidden">
+      {/* Fixed: hero + title */}
+      <div className="shrink-0">
+        {artSrc && (
+          <div className="relative aspect-[4/3] max-h-[38dvh] w-full overflow-hidden">
+            <Image
+              src={artSrc}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 640px"
+              className="object-cover"
+              style={{ objectPosition: "center top" }}
+              priority
+            />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
           </div>
-          <span className={`text-[11px] font-semibold uppercase tracking-[0.1em] ${accentTextClass}`}>
-            {t(meta.labelKey)}
-          </span>
+        )}
+
+        <div className="relative z-10 mx-auto -mt-10 w-full max-w-2xl px-5 text-center">
+          {/* Category chip */}
+          <div className="mb-2 flex items-center justify-center gap-2">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-xl border"
+              style={{ backgroundColor: `${accentHex}1a`, borderColor: `${accentHex}33` }}
+            >
+              <LandingIcon size={16} stroke={1.6} className={accentTextClass} />
+            </div>
+            <span className={`text-[11px] font-semibold uppercase tracking-[0.1em] ${accentTextClass}`}>
+              {t(meta.labelKey)}
+            </span>
+          </div>
+
+          <h1 className="font-display text-3xl font-semibold leading-tight text-foreground">
+            {name}
+          </h1>
         </div>
+      </div>
 
-        <h1 className="font-display text-3xl font-semibold leading-tight text-foreground">
-          {name}
-        </h1>
-
-        {lore && (
-          <p className="mx-auto mt-5 max-w-[60ch] whitespace-pre-line text-[15px] leading-relaxed text-muted">
+      {/* Scrollable: lore only */}
+      {lore && (
+        <div className="mt-4 flex-1 overflow-y-auto px-5 pb-safe">
+          <p className="mx-auto max-w-[60ch] whitespace-pre-line pb-8 text-justify text-[15px] leading-relaxed text-muted [hyphens:auto]">
             {lore}
           </p>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
