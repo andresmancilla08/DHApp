@@ -51,6 +51,13 @@ const ALL_TRAITS: TraitKey[] = [
 // Level achievements at 2, 5, 8
 const ACHIEVEMENT_LEVELS = new Set([2, 5, 8]);
 
+// Shared primary CTA — matches the app's bright-gold pill (wizard/home).
+const PRIMARY_BTN =
+  "flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-gold-bright to-gold text-sm font-bold text-[#2a1d05] shadow-[0_6px_24px_-8px_rgba(217,164,65,0.7)] transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright";
+// Secondary text button (back).
+const BACK_BTN =
+  "flex min-h-[44px] items-center justify-center py-3 text-sm font-medium text-muted transition hover:text-foreground active:scale-[0.99]";
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export function LevelUpFlow({ character, open, onClose }: Props) {
@@ -397,17 +404,7 @@ function ChooseStep({
 
       {/* CTA */}
       <div className="mt-5 shrink-0">
-        <button
-          type="button"
-          onClick={onContinue}
-          disabled={!canContinue}
-          className={[
-            "w-full rounded-full bg-gradient-to-r from-gold/90 to-gold-deep py-3.5 text-sm font-bold text-background transition-all active:scale-[0.985]",
-            !canContinue ? "opacity-40" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
+        <button type="button" onClick={onContinue} disabled={!canContinue} className={PRIMARY_BTN}>
           {t("levelUp.continue")}
         </button>
       </div>
@@ -484,24 +481,10 @@ function BoostTraitsStep({
       </div>
 
       <div className="mt-5 flex flex-col gap-2 shrink-0">
-        <button
-          type="button"
-          onClick={onConfirm}
-          disabled={!canConfirm}
-          className={[
-            "w-full rounded-full bg-gradient-to-r from-gold/90 to-gold-deep py-3.5 text-sm font-bold text-background transition-all active:scale-[0.985]",
-            !canConfirm ? "opacity-40" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
+        <button type="button" onClick={onConfirm} disabled={!canConfirm} className={PRIMARY_BTN}>
           {t("levelUp.boostTraits.confirm")}
         </button>
-        <button
-          type="button"
-          onClick={onBack}
-          className="min-h-[44px] flex items-center justify-center py-3 text-sm text-muted transition-all duration-150 active:scale-[0.985] active:opacity-70"
-        >
+        <button type="button" onClick={onBack} className={BACK_BTN}>
           {t("levelUp.back")}
         </button>
       </div>
@@ -584,9 +567,7 @@ function PickCardStep({
                   {t(`dh.card.${card.id}`, { defaultValue: card.id })}
                 </span>
                 <span className="mt-0.5 flex items-center gap-2 text-xs text-muted">
-                  <span className="capitalize">{t(`dh.domains.${card.domain}`, { defaultValue: card.domain })}</span>
-                  <span>·</span>
-                  <span className="capitalize">{t(`dh.cardTypes.${card.type}`, { defaultValue: card.type })}</span>
+                  <span>{t(`wizard.cards.${card.type}`)}</span>
                   {card.recallCost > 0 && (
                     <>
                       <span>·</span>
@@ -596,8 +577,8 @@ function PickCardStep({
                 </span>
               </span>
 
-              <span className="shrink-0 rounded-full bg-fear/20 px-2 py-0.5 text-xs font-medium capitalize text-fear">
-                {t(`dh.domains.${card.domain}`, { defaultValue: card.domain })}
+              <span className="shrink-0 rounded-full border border-fear/30 bg-fear/15 px-2.5 py-0.5 text-[11px] font-semibold text-fear-bright">
+                {t(`dh.domain.${card.domain}`)}
               </span>
             </button>
           );
@@ -605,24 +586,10 @@ function PickCardStep({
       </div>
 
       <div className="mt-5 flex flex-col gap-2 shrink-0">
-        <button
-          type="button"
-          onClick={onConfirm}
-          disabled={!canConfirm}
-          className={[
-            "w-full rounded-full bg-gradient-to-r from-gold/90 to-gold-deep py-3.5 text-sm font-bold text-background transition-all active:scale-[0.985]",
-            !canConfirm ? "opacity-40" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
+        <button type="button" onClick={onConfirm} disabled={!canConfirm} className={PRIMARY_BTN}>
           {t("levelUp.pickCard.confirm")}
         </button>
-        <button
-          type="button"
-          onClick={onBack}
-          className="min-h-[44px] flex items-center justify-center py-3 text-sm text-muted transition-all duration-150 active:scale-[0.985] active:opacity-70"
-        >
+        <button type="button" onClick={onBack} className={BACK_BTN}>
           {t("levelUp.back")}
         </button>
       </div>
@@ -728,17 +695,7 @@ function ConfirmStep({
 
       {/* CTAs */}
       <div className="flex flex-col gap-2 shrink-0">
-        <button
-          type="button"
-          onClick={onApply}
-          disabled={loading}
-          className={[
-            "w-full rounded-full bg-gradient-to-r from-gold/90 to-gold-deep py-3.5 text-sm font-bold text-background transition-all active:scale-[0.985]",
-            loading ? "opacity-60" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
+        <button type="button" onClick={onApply} disabled={loading} className={PRIMARY_BTN}>
           {loading ? (
             <span className="flex items-center justify-center gap-2">
               <svg
@@ -757,11 +714,7 @@ function ConfirmStep({
           )}
         </button>
         {!loading && (
-          <button
-            type="button"
-            onClick={onBack}
-            className="min-h-[44px] flex items-center justify-center py-3 text-sm text-muted transition-all duration-150 active:scale-[0.985] active:opacity-70"
-          >
+          <button type="button" onClick={onBack} className={BACK_BTN}>
             {t("levelUp.back")}
           </button>
         )}
@@ -796,11 +749,7 @@ function DoneStep({
         {t("levelUp.done.description")}
       </p>
 
-      <button
-        type="button"
-        onClick={onDone}
-        className="mt-6 w-full rounded-full bg-gradient-to-r from-gold/90 to-gold-deep py-3.5 text-sm font-bold text-background transition-all active:scale-[0.985]"
-      >
+      <button type="button" onClick={onDone} className={`mt-6 ${PRIMARY_BTN}`}>
         {t("levelUp.done.viewCharacter")}
       </button>
     </div>
