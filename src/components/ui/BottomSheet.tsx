@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   open: boolean;
@@ -12,6 +13,7 @@ interface Props {
 
 /** Mobile-native bottom sheet: scrim + slide-up panel, safe-area aware. */
 export function BottomSheet({ open, onClose, label, children }: Props) {
+  const { t } = useTranslation();
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -30,7 +32,7 @@ export function BottomSheet({ open, onClose, label, children }: Props) {
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <button
         type="button"
-        aria-label="Close"
+        aria-label={t("common.close")}
         onClick={onClose}
         className="dh-scrim absolute inset-0 bg-black/60 backdrop-blur-sm"
       />

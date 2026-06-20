@@ -971,7 +971,9 @@
     }
   },
   "common": {
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "back": "Volver"
   },
   "character": {
     "actions": {

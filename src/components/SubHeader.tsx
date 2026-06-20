@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { IconArrowLeft } from "@tabler/icons-react";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 /** Interior screen header: back arrow (left) + brand or custom action (right). */
 export function SubHeader({ backHref, onBack, rightElement }: Props) {
   const router = useRouter();
+  const { t } = useTranslation();
 
   function handleBack() {
     if (onBack) { onBack(); return; }
@@ -27,7 +29,7 @@ export function SubHeader({ backHref, onBack, rightElement }: Props) {
       <button
         type="button"
         onClick={handleBack}
-        aria-label="Volver"
+        aria-label={t("common.back")}
         className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-surface-2/40 text-muted transition hover:text-foreground active:scale-95"
       >
         <IconArrowLeft size={20} stroke={1.8} />
