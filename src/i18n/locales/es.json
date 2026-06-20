@@ -1010,7 +1010,8 @@
     "emptyDesc": "Registra los eventos, sesiones y momentos clave de la historia de tu personaje.",
     "errors": {
       "empty": "La entrada no puede estar vacía."
-    }
+    },
+    "editEntry": "Editar entrada"
   },
   "equip": {
     "broadsword": {

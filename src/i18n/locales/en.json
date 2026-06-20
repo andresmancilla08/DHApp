@@ -1010,7 +1010,8 @@
     "emptyDesc": "Record the events, sessions and key moments of your character's story.",
     "errors": {
       "empty": "The entry can't be empty."
-    }
+    },
+    "editEntry": "Edit entry"
   },
   "equip": {
     "broadsword": {
