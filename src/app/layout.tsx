@@ -50,24 +50,11 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <DevSwKiller />
         <I18nProvider initialLanguage={lang}>
-          {/* App column: centered + capped on desktop/tablet. The `transform` makes
-              this a containing block so fixed CTAs/aurora resolve to the column,
-              not the full viewport (mobile unaffected — column is full-width). */}
-          <div className="relative mx-auto w-full max-w-2xl transform-gpu">
-            {children}
-            {/* Soft gradient fade on the column's side edges (desktop/tablet only)
-                so the boundary with the letterbox vanishes instead of cutting hard. */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-y-0 left-0 z-30 hidden w-4 md:block"
-              style={{ background: "linear-gradient(to right, var(--background), transparent)" }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-y-0 right-0 z-30 hidden w-4 md:block"
-              style={{ background: "linear-gradient(to left, var(--background), transparent)" }}
-            />
-          </div>
+          {/* Content capped + centered on desktop/tablet. No transform here on purpose:
+              the page background (dh-aurora/grain, position:fixed) stays full-viewport,
+              so there is no visible seam between the column and the letterbox — only the
+              content is centered. Mobile is unaffected (column is full-width). */}
+          <div className="mx-auto w-full max-w-2xl">{children}</div>
         </I18nProvider>
       </body>
     </html>
