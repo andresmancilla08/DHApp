@@ -3,7 +3,18 @@
 import { useState, useMemo, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import { IconSearch, IconX, IconBookOff, IconChevronLeft } from "@tabler/icons-react";
+import {
+  IconSearch,
+  IconX,
+  IconBookOff,
+  IconChevronLeft,
+  IconDna2,
+  IconBuildingCommunity,
+  IconSwords,
+  IconHexagons,
+  IconShield,
+  IconBook2,
+} from "@tabler/icons-react";
 import { WIKI_ENTRIES, EQUIP_DISPLAY, type WikiCategory, type WikiEntry } from "@/lib/wiki/entries";
 import { SECONDARY_WEAPONS, ARMORS } from "@/lib/daggerheart/equipment";
 
@@ -24,6 +35,12 @@ interface CategoryMeta {
   landingArtPosition: string;
   /** Gradient overlay for landing card — bottom-to-top */
   landingGradient: string;
+  /** Tabler icon for the icon-only landing card */
+  LandingIcon: React.FC<{ size?: number; stroke?: number; className?: string }>;
+  /** Hex color for icon glow and tint (no alpha) */
+  accentHex: string;
+  /** Tailwind text color class for the icon */
+  accentTextClass: string;
 }
 
 const CATEGORIES: CategoryMeta[] = [
@@ -37,6 +54,9 @@ const CATEGORIES: CategoryMeta[] = [
     landingArt: "/art/cover.jpg",
     landingArtPosition: "center 25%",
     landingGradient: "from-background via-background/60 to-transparent",
+    LandingIcon: IconBook2,
+    accentHex: "#d9a441",
+    accentTextClass: "text-gold",
   },
   {
     value: "ancestry",
@@ -48,6 +68,9 @@ const CATEGORIES: CategoryMeta[] = [
     landingArt: "/art/cover.jpg",
     landingArtPosition: "left 25%",
     landingGradient: "from-background via-background/55 to-transparent",
+    LandingIcon: IconDna2,
+    accentHex: "#d9a441",
+    accentTextClass: "text-gold",
   },
   {
     value: "community",
@@ -59,6 +82,9 @@ const CATEGORIES: CategoryMeta[] = [
     landingArt: "/art/community/ridgeborne.jpg",
     landingArtPosition: "center 25%",
     landingGradient: "from-background via-background/55 to-transparent",
+    LandingIcon: IconBuildingCommunity,
+    accentHex: "#d9a441",
+    accentTextClass: "text-gold",
   },
   {
     value: "class",
@@ -70,6 +96,9 @@ const CATEGORIES: CategoryMeta[] = [
     landingArt: "/art/night-dragon.jpg",
     landingArtPosition: "center 30%",
     landingGradient: "from-background via-background/50 to-transparent",
+    LandingIcon: IconSwords,
+    accentHex: "#a78bfa",
+    accentTextClass: "text-fear-bright",
   },
   {
     value: "domain",
@@ -81,6 +110,9 @@ const CATEGORIES: CategoryMeta[] = [
     landingArt: "/art/guardian.jpg",
     landingArtPosition: "center 20%",
     landingGradient: "from-background via-background/45 to-transparent",
+    LandingIcon: IconHexagons,
+    accentHex: "#a78bfa",
+    accentTextClass: "text-fear-bright",
   },
   {
     value: "equipment",
@@ -92,6 +124,9 @@ const CATEGORIES: CategoryMeta[] = [
     landingArt: "/art/equipment/primary.jpg",
     landingArtPosition: "center 25%",
     landingGradient: "from-background via-background/60 to-transparent",
+    LandingIcon: IconShield,
+    accentHex: "#f0c25e",
+    accentTextClass: "text-gold-bright",
   },
   {
     value: "rules",
@@ -103,6 +138,9 @@ const CATEGORIES: CategoryMeta[] = [
     landingArt: "/art/night-sky.jpg",
     landingArtPosition: "center 40%",
     landingGradient: "from-background via-background/65 to-transparent",
+    LandingIcon: IconBook2,
+    accentHex: "#d9a441",
+    accentTextClass: "text-gold",
   },
 ];
 
@@ -306,49 +344,67 @@ function WikiLandingCard({
 }) {
   const { t } = useTranslation();
   const label = t(meta.labelKey);
+  const { LandingIcon, accentHex, accentTextClass } = meta;
+
+  // Tinted hover shadow per category (avoids pure black shadows)
+  const hoverShadow = `0 4px 24px ${accentHex}26`; // 15% alpha
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className="dh-rise group relative h-40 w-full overflow-hidden rounded-2xl bg-surface-2/30 text-left transition-[transform,box-shadow] duration-[120ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.015] hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)] active:scale-[0.97] active:duration-[80ms] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-inset"
-      style={{ animationDelay: `${index * 50}ms` }}
       aria-label={label}
+      className="dh-rise group relative h-40 w-full will-change-transform overflow-hidden rounded-2xl border border-border bg-surface-2/50 text-center transition-[transform,background-color,box-shadow] duration-[120ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.02] hover:border-border-strong hover:bg-surface-2/80 active:scale-[0.97] active:duration-[80ms] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-inset motion-safe:transition-[transform,background-color,box-shadow]"
+      style={{ animationDelay: `${index * 50}ms` }}
+      // Inline style for tinted hover shadow — applied via JS on hover
+      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = hoverShadow; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = "none"; }}
     >
-      {/* Full-bleed art */}
-      <Image
-        src={meta.landingArt}
-        alt=""
-        fill
-        sizes="(max-width: 640px) calc(50vw - 24px), 260px"
-        className="object-cover transition-[filter] duration-[120ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] [filter:brightness(0.65)_saturate(1.25)] group-hover:[filter:brightness(0.82)_saturate(1.3)]"
-        style={{ objectPosition: meta.landingArtPosition }}
-        priority={index < 2}
+      {/* Ambient radial glow — always visible, intensifies on hover */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-60 transition-opacity duration-[120ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${accentHex}14, transparent 70%)`,
+        }}
+        aria-hidden
       />
 
-      {/* Bottom gradient — title zone */}
-      <div className={`absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t ${meta.landingGradient}`} />
+      {/* Icon + text stack */}
+      <div className="relative flex h-full flex-col items-center justify-center">
+        {/* Icon circle with glow layer */}
+        <div className="relative mb-3 flex items-center justify-center">
+          {/* Glow pseudo-element — opacity transitions on group-hover */}
+          <div
+            className="pointer-events-none absolute inset-0 rounded-full opacity-0 blur-[12px] transition-opacity duration-[120ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100"
+            style={{ background: accentHex, transform: "scale(1.4)" }}
+            aria-hidden
+          />
+          {/* Icon backdrop circle */}
+          <div
+            className="relative flex h-14 w-14 items-center justify-center rounded-full border"
+            style={{
+              backgroundColor: `${accentHex}1a`, // 10% alpha
+              borderColor: `${accentHex}33`,      // 20% alpha
+            }}
+          >
+            <LandingIcon
+              size={28}
+              stroke={1.4}
+              className={`${accentTextClass} transition-colors duration-[120ms]`}
+            />
+          </div>
+        </div>
 
+        {/* Category name */}
+        <h2 className={`line-clamp-1 font-display text-sm font-semibold tracking-[0.04em] text-foreground`}>
+          {label}
+        </h2>
 
-      {/* Emoji — top-left */}
-      <span
-        className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-background/80 text-sm backdrop-blur-md"
-        aria-hidden
-      >
-        {meta.emoji}
-      </span>
-
-      {/* Entry count badge — top-right */}
-      <span
-        className={`absolute right-2.5 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide backdrop-blur-sm ${meta.badgeClass}`}
-      >
-        {t("wiki.landing.entries", { count })}
-      </span>
-
-      {/* Title overlaid on bottom gradient */}
-      <h2 className="absolute inset-x-0 bottom-0 line-clamp-2 px-3 pb-3 font-display text-sm font-semibold leading-snug tracking-wide text-foreground drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">
-        {label}
-      </h2>
+        {/* Entry count */}
+        <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.1em] text-muted/70">
+          {t("wiki.landing.entries", { count })}
+        </p>
+      </div>
     </button>
   );
 }
