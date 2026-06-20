@@ -25,6 +25,7 @@ import {
   IconShirt,
 } from "@tabler/icons-react";
 import { SubHeader } from "@/components/SubHeader";
+import { BottomSheet } from "@/components/ui/BottomSheet";
 import { WIKI_ENTRIES, EQUIP_DISPLAY, type WikiCategory, type WikiEntry } from "@/lib/wiki/entries";
 import { SECONDARY_WEAPONS, ARMORS } from "@/lib/daggerheart/equipment";
 
@@ -247,56 +248,97 @@ function WikiCard({ entry, index }: { entry: WikiEntry; index: number }) {
   const desc = resolveEntryDesc(entry, t);
   const artSrc = getArtSrc(entry);
   const { LandingIcon, accentHex, accentTextClass } = meta;
+  const [open, setOpen] = useState(false);
 
   const delayStyle = { animationDelay: `${Math.min(index * 30, 300)}ms` };
 
   return (
-    <article
-      className="dh-rise group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-2/30 transition-all duration-150 active:scale-[0.98] hover:border-border-strong hover:bg-surface-2/45"
-      style={delayStyle}
-    >
-      {/* Cover */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
-        {artSrc ? (
-          <Image
-            src={artSrc}
-            alt=""
-            fill
-            sizes="(max-width: 640px) calc(50vw - 28px), 300px"
-            style={{
-              objectFit: "cover",
-              objectPosition: "center top",
-              filter: "brightness(0.62) saturate(1.15)",
-            }}
-          />
-        ) : (
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{
-              background: `radial-gradient(ellipse 90% 80% at 50% 35%, ${accentHex}1f, transparent 72%)`,
-            }}
-          >
-            <LandingIcon
-              size={34}
-              stroke={1.4}
-              className={`${accentTextClass} opacity-50`}
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={name}
+        className="dh-rise group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-2/30 text-left transition-all duration-150 active:scale-[0.98] hover:border-border-strong hover:bg-surface-2/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-inset"
+        style={delayStyle}
+      >
+        {/* Cover */}
+        <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden">
+          {artSrc ? (
+            <Image
+              src={artSrc}
+              alt=""
+              fill
+              sizes="(max-width: 640px) calc(50vw - 28px), 300px"
+              className="object-cover transition-transform duration-200 group-hover:scale-[1.04]"
+              style={{
+                objectPosition: "center top",
+                filter: "brightness(0.7) saturate(1.15)",
+              }}
             />
-          </div>
-        )}
-        {/* Bottom fade + name */}
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface-2 via-surface-2/70 to-transparent" />
-        <h3 className="absolute inset-x-0 bottom-0 line-clamp-1 px-3 pb-2 font-display text-sm font-semibold leading-tight tracking-wide text-foreground drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
-          {name}
-        </h3>
-      </div>
+          ) : (
+            <div
+              className="absolute inset-0 flex items-center justify-center"
+              style={{
+                background: `radial-gradient(ellipse 90% 80% at 50% 35%, ${accentHex}1f, transparent 72%)`,
+              }}
+            >
+              <LandingIcon size={34} stroke={1.4} className={`${accentTextClass} opacity-50`} />
+            </div>
+          )}
+        </div>
 
-      {/* Description */}
-      {desc && (
-        <p className="line-clamp-2 px-3 pb-3 pt-2 text-xs leading-relaxed text-muted">
-          {desc}
-        </p>
-      )}
-    </article>
+        {/* Name + preview below image */}
+        <div className="flex flex-1 flex-col gap-1 p-3">
+          <h3 className="line-clamp-2 font-display text-sm font-semibold leading-tight tracking-wide text-foreground">
+            {name}
+          </h3>
+          {desc && (
+            <p className="line-clamp-2 text-xs leading-relaxed text-muted">{desc}</p>
+          )}
+        </div>
+      </button>
+
+      <BottomSheet open={open} onClose={() => setOpen(false)} label={name}>
+        <div className="max-h-[74dvh] overflow-y-auto pb-2 text-center">
+          {artSrc && (
+            <div className="relative mb-4 aspect-[16/10] w-full overflow-hidden rounded-2xl">
+              <Image
+                src={artSrc}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 90vw, 420px"
+                className="object-cover"
+                style={{ objectPosition: "center top" }}
+              />
+              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface to-transparent" />
+            </div>
+          )}
+
+          {/* Category chip */}
+          <div className="mb-2 flex items-center justify-center gap-2">
+            <div
+              className="flex h-7 w-7 items-center justify-center rounded-lg border"
+              style={{ backgroundColor: `${accentHex}1a`, borderColor: `${accentHex}33` }}
+            >
+              <LandingIcon size={15} stroke={1.6} className={accentTextClass} />
+            </div>
+            <span className={`text-[11px] font-semibold uppercase tracking-[0.1em] ${accentTextClass}`}>
+              {t(meta.labelKey)}
+            </span>
+          </div>
+
+          <h2 className="font-display text-2xl font-semibold leading-tight text-foreground">
+            {name}
+          </h2>
+
+          {desc && (
+            <p className="mx-auto mt-3 max-w-[40ch] text-sm leading-relaxed text-muted">
+              {desc}
+            </p>
+          )}
+        </div>
+      </BottomSheet>
+    </>
   );
 }
 
