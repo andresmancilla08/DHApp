@@ -446,6 +446,7 @@ function WikiEquipCard({ entry, index }: { entry: WikiEntry; index: number }) {
   const { name, isArmor, stats } = display;
   const Icon = getEquipIcon(equipId, isArmor);
   const isMag = stats.dmgType === "mag";
+  const glowHex = isMag ? "#a78bfa" : "#d9a441";
 
   // Magic weapons read purple (Fear), everything else gold (Hope).
   const tone = isMag
@@ -486,11 +487,14 @@ function WikiEquipCard({ entry, index }: { entry: WikiEntry; index: number }) {
       style={delayStyle}
     >
       <div className="flex items-center gap-3">
-        {/* Type icon */}
+        {/* Type icon — themed gradient + glow */}
         <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border ${tone.chip}`}
+          className={`relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border ${tone.chip}`}
+          style={{
+            backgroundImage: `radial-gradient(circle at 50% 22%, ${glowHex}40, transparent 72%)`,
+          }}
         >
-          <Icon size={20} stroke={1.75} />
+          <Icon size={23} stroke={1.6} className="relative drop-shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
         </div>
 
         {/* Name + meta */}
