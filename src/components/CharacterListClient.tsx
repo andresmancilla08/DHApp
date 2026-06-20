@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { IconSword, IconChevronRight, IconPlus, IconSparkles } from "@tabler/icons-react";
 import type { Character } from "@/lib/daggerheart/types";
@@ -68,31 +69,63 @@ export function CharacterListClient({ characters }: { characters: Character[] })
               <Link
                 key={char.id}
                 href={`/characters/${char.id}`}
-                className="group flex items-center gap-4 rounded-2xl border border-border bg-surface-2/30 p-4 transition-all duration-150 hover:border-border-strong hover:bg-surface-2/60 active:scale-[0.985]"
-                style={{ animationDelay: `${i * 30}ms` }}
+                className="dh-rise group relative flex items-stretch overflow-hidden rounded-2xl border border-border bg-surface-2/30 transition-all duration-150 hover:border-border-strong hover:bg-surface-2/55 active:scale-[0.985]"
+                style={{ animationDelay: `${i * 40}ms` }}
               >
-                {/* Avatar con inicial */}
-                <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-gold/30 bg-gold/10">
-                  <span className="font-display text-lg font-bold text-gold">
-                    {char.name.charAt(0).toUpperCase()}
-                  </span>
+                {/* Class art */}
+                <div className="relative w-24 shrink-0 overflow-hidden">
+                  <Image
+                    src={`/art/${char.classKey}.jpg`}
+                    alt=""
+                    fill
+                    sizes="96px"
+                    className="object-cover transition-transform duration-200 group-hover:scale-105"
+                    style={{ objectPosition: "center top", filter: "brightness(0.82) saturate(1.1)" }}
+                  />
+                  <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-surface-2/40" />
                 </div>
 
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-display text-base font-semibold text-foreground">
-                    {char.name}
-                  </p>
-                  <p className="mt-0.5 text-xs text-muted">
-                    {t(`dh.class.${char.classKey}`)}
-                    <span className="mx-1.5 opacity-40">·</span>
-                    {t("characters.level", { level: char.level })}
-                  </p>
+                {/* Content */}
+                <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 py-3 pl-3.5 pr-2">
+                  <div className="min-w-0">
+                    <h3 className="truncate font-display text-base font-semibold leading-tight text-foreground">
+                      {char.name}
+                    </h3>
+                    <p className="mt-0.5 truncate text-xs text-muted">
+                      {t(`dh.class.${char.classKey}`)}
+                      <span className="mx-1.5 opacity-40">·</span>
+                      {t("characters.level", { level: char.level })}
+                      <span className="mx-1.5 opacity-40">·</span>
+                      {t(`dh.ancestry.${char.ancestryKey}`)}
+                    </p>
+                  </div>
+
+                  {/* Stat chips */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {(
+                      [
+                        ["wizard.review.evasion", char.evasion],
+                        ["wizard.review.hp", char.hpMax],
+                        ["wizard.review.hope", char.hope],
+                      ] as const
+                    ).map(([key, value]) => (
+                      <span
+                        key={key}
+                        className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface-2/50 px-2 py-0.5 text-[10px] text-muted"
+                      >
+                        <span className="font-mono text-[11px] font-bold text-gold">{value}</span>
+                        {t(key)}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                <IconChevronRight
-                  size={18}
-                  className="shrink-0 text-muted/40 transition-transform duration-150 group-hover:translate-x-1 group-hover:text-muted/70"
-                />
+                <div className="flex shrink-0 items-center pr-3">
+                  <IconChevronRight
+                    size={18}
+                    className="text-muted/40 transition-transform duration-150 group-hover:translate-x-1 group-hover:text-muted/70"
+                  />
+                </div>
               </Link>
             ))}
           </div>
