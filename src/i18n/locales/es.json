@@ -20,7 +20,9 @@
     "cta": "Crear personaje",
     "myCharacters": "Mis Personajes",
     "wiki": "Wiki",
-    "wikiDesc": "Reglas, ancestrías, clases y más"
+    "wikiDesc": "Reglas, ancestrías, clases y más",
+    "eyebrow": "Tus aventuras te esperan",
+    "myCharactersDesc": "Crea, sube de nivel y gestiona tus héroes"
   },
   "locale": {
     "label": "Idioma"
