@@ -22,7 +22,15 @@
     "wiki": "Wiki",
     "wikiDesc": "Reglas, ancestrías, clases y más",
     "eyebrow": "Tus aventuras te esperan",
-    "myCharactersDesc": "Crea, sube de nivel y gestiona tus héroes"
+    "myCharactersDesc": "Crea, sube de nivel y gestiona tus héroes",
+    "greetingEyebrow": "Bienvenido de vuelta",
+    "greetingTitle": "Hola, {{name}}",
+    "continueTitle": "Continúa tu aventura",
+    "otherHeroes": "Tus héroes",
+    "viewAll": "Ver todos",
+    "newCharShort": "Crear",
+    "emptyTitle": "Tu historia comienza aquí",
+    "emptyDesc": "Cada gran leyenda empieza con un nombre. El tuyo está a punto de ser escrito."
   },
   "locale": {
     "label": "Idioma"
