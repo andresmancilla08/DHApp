@@ -2,12 +2,12 @@
 
 import { useState, useMemo, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   IconSearch,
   IconX,
   IconBookOff,
-  IconChevronLeft,
   IconDna2,
   IconBuildingCommunity,
   IconSwords,
@@ -15,6 +15,7 @@ import {
   IconShield,
   IconBook2,
 } from "@tabler/icons-react";
+import { SubHeader } from "@/components/SubHeader";
 import { WIKI_ENTRIES, EQUIP_DISPLAY, type WikiCategory, type WikiEntry } from "@/lib/wiki/entries";
 import { SECONDARY_WEAPONS, ARMORS } from "@/lib/daggerheart/equipment";
 
@@ -259,7 +260,6 @@ function WikiCard({ entry, index }: { entry: WikiEntry; index: number }) {
             }}
           />
           <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-surface-2/95 to-transparent" />
-          <div className={`absolute inset-x-0 top-0 h-[3px] ${meta.spineClass}`} aria-hidden />
           <span
             className={`absolute right-2.5 top-3 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide backdrop-blur-sm ${meta.badgeClass}`}
           >
@@ -297,7 +297,6 @@ function WikiCard({ entry, index }: { entry: WikiEntry; index: number }) {
       className="dh-rise group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface-2/20 transition-all duration-150 active:scale-[0.985] hover:bg-surface-2/40 hover:border-border-strong"
       style={delayStyle}
     >
-      <div className={`h-[3px] w-full shrink-0 ${meta.spineClass}`} aria-hidden />
       <div className="flex flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-display text-base font-semibold leading-snug text-foreground">
@@ -454,19 +453,14 @@ function WikiLanding({ onSelectCategory }: { onSelectCategory: (cat: WikiCategor
 
 // ── WikiCategoryView ──────────────────────────────────────────────────────────
 
-function WikiCategoryView({
-  category,
-  onBack,
-}: {
-  category: WikiCategory;
-  onBack: () => void;
-}) {
+function WikiCategoryView({ category }: { category: WikiCategory }) {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const meta = META_BY_VALUE[category];
   const label = t(meta.labelKey);
+  const { LandingIcon, accentHex, accentTextClass } = meta;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -489,84 +483,76 @@ function WikiCategoryView({
 
   return (
     <div className="dh-rise relative z-10 flex flex-1 flex-col overflow-hidden">
-      {/* Category banner header */}
-      <div className="relative flex-none overflow-hidden">
-        {/* Art banner */}
-        <div className="relative h-[140px] w-full">
-          <Image
-            src={meta.landingArt}
-            alt=""
-            fill
-            sizes="100vw"
-            style={{
-              objectFit: "cover",
-              objectPosition: meta.landingArtPosition,
-              filter: "brightness(0.55) saturate(1.1)",
-            }}
-            priority
-          />
-          {/* Gradient fade into the header below */}
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/70 to-transparent" />
-          {/* Top spine */}
-          <div className={`absolute inset-x-0 top-0 h-[3px] ${meta.spineClass}`} aria-hidden />
-        </div>
+      {/* Compact header — no banner */}
+      <div className="relative flex-none px-5 pb-3 pt-1">
+        {/* Subtle accent glow for thematic identity */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-28 opacity-60"
+          style={{
+            background: `radial-gradient(ellipse 70% 100% at 16% 0%, ${accentHex}1f, transparent 72%)`,
+          }}
+          aria-hidden
+        />
 
-        {/* Back button + title — overlaid on bottom of banner */}
-        <div className="absolute inset-x-0 bottom-0 flex items-end gap-3 px-5 pb-3">
-          <button
-            type="button"
-            onClick={onBack}
-            aria-label={t("wiki.back")}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border/60 bg-background/70 text-foreground backdrop-blur-sm transition-all duration-150 active:scale-[0.92] hover:border-border-strong hover:bg-surface-2/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
-          >
-            <IconChevronLeft size={18} />
-          </button>
-          <h1 className="font-display text-xl font-semibold leading-tight text-foreground drop-shadow-lg sm:text-2xl">
-            {label}
-          </h1>
-        </div>
-      </div>
-
-      {/* Search + count */}
-      <div className="flex-none border-b border-border/30 bg-background/80 px-5 pb-2 pt-3 backdrop-blur-md">
-        <div className="relative flex h-11 items-center">
-          <IconSearch
-            size={17}
-            className="absolute left-3.5 shrink-0 text-muted/60"
-            aria-hidden
-          />
-          <input
-            ref={inputRef}
-            type="text"
-            inputMode="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={t("wiki.searchPlaceholder")}
-            aria-label={t("wiki.searchPlaceholder")}
-            className="h-11 w-full rounded-2xl border border-border bg-surface-2/30 pl-9 pr-9 text-sm text-foreground placeholder:text-muted/50 transition-colors duration-150 focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
-          />
-          {query.length > 0 && (
-            <button
-              type="button"
-              onClick={clearQuery}
-              aria-label={t("wiki.clearSearch")}
-              className="absolute right-1 flex h-11 w-11 items-center justify-center rounded-full text-muted/60 transition hover:text-foreground active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
+        <div className="relative mx-auto w-full max-w-2xl">
+          {/* Title row */}
+          <div className="flex items-center gap-3">
+            <div
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border"
+              style={{
+                backgroundColor: `${accentHex}1a`,
+                borderColor: `${accentHex}33`,
+              }}
             >
-              <IconX size={14} />
-            </button>
-          )}
+              <LandingIcon size={22} stroke={1.5} className={accentTextClass} />
+            </div>
+            <h1 className="font-display text-2xl font-semibold leading-tight tracking-wide text-foreground">
+              {label}
+            </h1>
+          </div>
+
+          {/* Search */}
+          <div className="relative mt-3 flex h-11 items-center">
+            <IconSearch
+              size={17}
+              className="absolute left-3.5 shrink-0 text-muted/60"
+              aria-hidden
+            />
+            <input
+              ref={inputRef}
+              type="text"
+              inputMode="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t("wiki.searchPlaceholder")}
+              aria-label={t("wiki.searchPlaceholder")}
+              className="h-11 w-full rounded-2xl border border-border bg-surface-2/40 pl-9 pr-9 text-sm text-foreground placeholder:text-muted/50 transition-colors duration-150 focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/20"
+            />
+            {query.length > 0 && (
+              <button
+                type="button"
+                onClick={clearQuery}
+                aria-label={t("wiki.clearSearch")}
+                className="absolute right-1 flex h-11 w-11 items-center justify-center rounded-full text-muted/60 transition hover:text-foreground active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
+              >
+                <IconX size={14} />
+              </button>
+            )}
+          </div>
+
+          <p className="mt-2 px-0.5 text-xs text-muted/60">
+            {t("wiki.resultCount", { count: filtered.length })}
+          </p>
         </div>
-        <p className="mt-1.5 text-xs text-muted/60">
-          {t("wiki.resultCount", { count: filtered.length })}
-        </p>
       </div>
 
       {/* Scrollable results */}
       <div
-        className="flex-1 overflow-y-auto px-5 py-4 pb-safe"
+        className="flex-1 overflow-y-auto px-5 pb-safe pt-1"
         aria-live="polite"
         aria-atomic="false"
       >
+        <div className="mx-auto w-full max-w-2xl">
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center gap-5 py-20 text-center">
             <div className="relative flex h-20 w-20 items-center justify-center">
@@ -599,6 +585,7 @@ function WikiCategoryView({
             ))}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
@@ -607,16 +594,26 @@ function WikiCategoryView({
 // ── WikiContent ───────────────────────────────────────────────────────────────
 
 export function WikiContent() {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<WikiCategory | null>(null);
 
-  if (activeCategory !== null) {
-    return (
-      <WikiCategoryView
-        category={activeCategory}
-        onBack={() => setActiveCategory(null)}
-      />
-    );
-  }
+  // Single context-aware back: category → landing, landing → home.
+  const handleBack = useCallback(() => {
+    setActiveCategory((cat) => {
+      if (cat !== null) return null;
+      router.push("/");
+      return cat;
+    });
+  }, [router]);
 
-  return <WikiLanding onSelectCategory={setActiveCategory} />;
+  return (
+    <>
+      <SubHeader onBack={handleBack} />
+      {activeCategory !== null ? (
+        <WikiCategoryView category={activeCategory} />
+      ) : (
+        <WikiLanding onSelectCategory={setActiveCategory} />
+      )}
+    </>
+  );
 }

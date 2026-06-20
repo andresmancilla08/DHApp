@@ -458,6 +458,11 @@
     "all": "Todos",
     "resultCount_one": "{{count}} entrada",
     "resultCount_other": "{{count}} entradas",
+    "landing": {
+      "subtitle": "Elige una sección para explorar",
+      "entries": "{{count}} entradas"
+    },
+    "back": "Atrás",
     "category": {
       "ancestry": "Ancestrías",
       "community": "Comunidades",
