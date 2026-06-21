@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { cardsForDomains } from "@/lib/daggerheart/cards";
 import { LevelPennant } from "@/components/LevelPennant";
+import { artUrl } from "@/lib/art";
 import { CLASS_DEFS } from "@/lib/daggerheart/classes";
 import type { ClassKey } from "@/lib/daggerheart/types";
 import type { WizardData } from "./types";
@@ -110,7 +111,7 @@ export function StepDomainCards({ data, onChange }: Props) {
               >
                 {/* CoreBook illustration — brighter, centered on the character */}
                 <Image
-                  src={`/art/cards/${card.id}.jpg`}
+                  src={artUrl(`/art/cards/${card.id}.jpg`)}
                   alt=""
                   fill
                   sizes="(max-width: 640px) 100vw, 50vw"

@@ -8,6 +8,7 @@ import { CLASS_DEFS, SUBCLASS_DEFS } from "@/lib/daggerheart/classes";
 import type { SubclassKey } from "@/lib/daggerheart/classes";
 import type { WizardData } from "./types";
 import type { ClassKey } from "@/lib/daggerheart/types";
+import { artUrl } from "@/lib/art";
 
 interface Props {
   data: WizardData;
@@ -108,7 +109,7 @@ export function StepClass({ data, onChange }: Props) {
               {art ? (
                 <div className="relative h-[150px] w-full shrink-0">
                   <Image
-                    src={art}
+                    src={artUrl(art)}
                     alt=""
                     fill
                     sizes="(max-width: 1024px) 50vw, 33vw"

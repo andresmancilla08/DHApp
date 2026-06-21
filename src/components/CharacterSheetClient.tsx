@@ -6,6 +6,7 @@ import type { Character, TraitKey } from "@/lib/daggerheart/types";
 import { CARDS_BY_ID } from "@/lib/daggerheart/cards";
 import { WEAPONS_BY_ID, ARMOR_BY_ID } from "@/lib/daggerheart/equipment";
 import { LevelPennant } from "@/components/LevelPennant";
+import { artUrl } from "@/lib/art";
 
 // NOTA: boostedTraits ya existe en Character; cast defensivo por si otro agente lo modifica
 interface Props {
@@ -27,7 +28,7 @@ export function CharacterSheetClient({ character: c }: Props) {
       {/* ── Banner de clase ── */}
       <div className="relative -mx-5 h-52 overflow-hidden">
         <Image
-          src={`/art/${c.classKey}.jpg`}
+          src={artUrl(`/art/${c.classKey}.jpg`)}
           alt=""
           fill
           priority
@@ -148,7 +149,7 @@ export function CharacterSheetClient({ character: c }: Props) {
                 <div key={card.id} className="overflow-hidden rounded-xl border border-border/60">
                   <div className="relative h-20 w-full">
                     <Image
-                      src={`/art/cards/${card.id}.jpg`}
+                      src={artUrl(`/art/cards/${card.id}.jpg`)}
                       alt=""
                       fill
                       sizes="(max-width: 640px) 100vw, 50vw"

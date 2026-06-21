@@ -31,6 +31,7 @@ import { SECONDARY_WEAPONS, ARMORS } from "@/lib/daggerheart/equipment";
 import { CARDS_BY_ID } from "@/lib/daggerheart/cards";
 import { DOMAINS } from "@/lib/daggerheart/reference";
 import { LevelPennant } from "@/components/LevelPennant";
+import { artUrl } from "@/lib/art";
 
 // ── Category meta ────────────────────────────────────────────────────────────
 
@@ -187,34 +188,29 @@ const ARMOR_IDS = new Set(ARMORS.map((a) => a.id));
 // ── Art resolution ────────────────────────────────────────────────────────────
 
 function getArtSrc(entry: WikiEntry): string | null {
-  switch (entry.category) {
-    case "ancestry": {
-      const key = entry.id.replace(/^ancestry_/, "");
-      return `/art/ancestry/${key}.jpg`;
+  const path = ((): string | null => {
+    switch (entry.category) {
+      case "ancestry":
+        return `/art/ancestry/${entry.id.replace(/^ancestry_/, "")}.jpg`;
+      case "community":
+        return `/art/community/${entry.id.replace(/^community_/, "")}.jpg`;
+      case "class":
+        return `/art/${entry.id.replace(/^class_/, "")}.jpg`;
+      case "domain":
+        return `/art/domains/${entry.id.replace(/^domain_/, "")}.jpg`;
+      case "card":
+        return `/art/cards/${entry.id}.jpg`;
+      case "equipment": {
+        const equipId = entry.id.replace(/^equip_/, "");
+        if (ARMOR_IDS.has(equipId)) return "/art/equipment/armor.jpg";
+        if (SECONDARY_IDS.has(equipId)) return "/art/equipment/secondary.jpg";
+        return "/art/equipment/primary.jpg";
+      }
+      default:
+        return null;
     }
-    case "community": {
-      const key = entry.id.replace(/^community_/, "");
-      return `/art/community/${key}.jpg`;
-    }
-    case "class": {
-      const key = entry.id.replace(/^class_/, "");
-      return `/art/${key}.jpg`;
-    }
-    case "domain": {
-      const key = entry.id.replace(/^domain_/, "");
-      return `/art/domains/${key}.jpg`;
-    }
-    case "card":
-      return `/art/cards/${entry.id}.jpg`;
-    case "equipment": {
-      const equipId = entry.id.replace(/^equip_/, "");
-      if (ARMOR_IDS.has(equipId)) return "/art/equipment/armor.jpg";
-      if (SECONDARY_IDS.has(equipId)) return "/art/equipment/secondary.jpg";
-      return "/art/equipment/primary.jpg";
-    }
-    default:
-      return null;
-  }
+  })();
+  return path ? artUrl(path) : null;
 }
 
 // ── Equipment name/desc resolution ───────────────────────────────────────────

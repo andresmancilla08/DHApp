@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { IconSword, IconChevronRight, IconPlus, IconSparkles } from "@tabler/icons-react";
 import type { Character } from "@/lib/daggerheart/types";
+import { artUrl } from "@/lib/art";
 
 export function CharacterListClient({ characters }: { characters: Character[] }) {
   const { t } = useTranslation();
@@ -75,7 +76,7 @@ export function CharacterListClient({ characters }: { characters: Character[] })
                 {/* Class art */}
                 <div className="relative w-24 shrink-0 overflow-hidden">
                   <Image
-                    src={`/art/${char.classKey}.jpg`}
+                    src={artUrl(`/art/${char.classKey}.jpg`)}
                     alt=""
                     fill
                     sizes="96px"

@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { IconChevronRight, IconSwords, IconBook2, IconPlus } from "@tabler/icons-react";
 import { AppHeader } from "@/components/AppHeader";
 import type { Character } from "@/lib/daggerheart/types";
+import { artUrl } from "@/lib/art";
 
 interface Props {
   username: string;
@@ -52,7 +53,7 @@ export function HomeContent({ username, characters }: Props) {
                 className="dh-rise group relative block h-48 w-full overflow-hidden rounded-3xl border border-gold/20 shadow-[0_10px_40px_-16px_rgba(0,0,0,0.85)] transition-all duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
               >
                 <Image
-                  src={`/art/${featured.classKey}.jpg`}
+                  src={artUrl(`/art/${featured.classKey}.jpg`)}
                   alt=""
                   fill
                   priority
@@ -117,7 +118,7 @@ export function HomeContent({ username, characters }: Props) {
                       className="group relative h-36 w-28 shrink-0 overflow-hidden rounded-2xl border border-border transition-all duration-150 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
                     >
                       <Image
-                        src={`/art/${c.classKey}.jpg`}
+                        src={artUrl(`/art/${c.classKey}.jpg`)}
                         alt=""
                         fill
                         sizes="112px"
