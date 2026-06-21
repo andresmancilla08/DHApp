@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { cardsForDomains } from "@/lib/daggerheart/cards";
+import { LevelPennant } from "@/components/LevelPennant";
 import { CLASS_DEFS } from "@/lib/daggerheart/classes";
 import type { ClassKey } from "@/lib/daggerheart/types";
 import type { WizardData } from "./types";
@@ -129,6 +130,13 @@ export function StepDomainCards({ data, onChange }: Props) {
                 />
                 {/* Bottom fade to card content */}
                 <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-surface-2/90 to-transparent" />
+
+                {/* Level pennant — top-left (recall cost sits top-right) */}
+                <LevelPennant
+                  level={card.level}
+                  side="left"
+                  label={t("wiki.card.level", { level: card.level })}
+                />
                 {/* Domain symbol — bottom-left corner, subtle */}
                 <span
                   className="pointer-events-none absolute bottom-2 left-3 select-none font-display text-2xl leading-none"

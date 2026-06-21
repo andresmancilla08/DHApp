@@ -30,6 +30,7 @@ import { WIKI_ENTRIES, EQUIP_DISPLAY, type WikiCategory, type WikiEntry } from "
 import { SECONDARY_WEAPONS, ARMORS } from "@/lib/daggerheart/equipment";
 import { CARDS_BY_ID } from "@/lib/daggerheart/cards";
 import { DOMAINS } from "@/lib/daggerheart/reference";
+import { LevelPennant } from "@/components/LevelPennant";
 
 // ── Category meta ────────────────────────────────────────────────────────────
 
@@ -281,7 +282,7 @@ function WikiCard({
     <button
       type="button"
       onClick={() => onOpen(entry)}
-      aria-label={card ? `${name} — ${t("wiki.card.level", { level: card.level })}` : name}
+      aria-label={name}
       className="dh-rise group flex h-full min-h-[140px] flex-col overflow-hidden rounded-2xl border border-border bg-surface-2/30 text-center transition-all duration-150 active:scale-[0.98] hover:border-border-strong hover:bg-surface-2/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-inset"
       style={delayStyle}
     >
@@ -312,17 +313,10 @@ function WikiCard({
 
         {/* Level pennant (top-right) */}
         {card && (
-          <span
-            aria-hidden
-            className="absolute right-2.5 top-0 z-10 flex h-9 w-7 items-center justify-center pb-2.5 font-display text-[13px] font-bold leading-none tabular-nums text-[#3a2606] drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]"
-            style={{
-              background: "linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 55%, var(--gold-deep) 100%)",
-              clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 66%, 0 100%)",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4), inset 0 0 0 1px rgba(255,255,255,0.08)",
-            }}
-          >
-            {card.level}
-          </span>
+          <LevelPennant
+            level={card.level}
+            label={t("wiki.card.level", { level: card.level })}
+          />
         )}
       </div>
 
@@ -345,6 +339,7 @@ function WikiEntryView({ entry }: { entry: WikiEntry }) {
   const artSrc = getArtSrc(entry);
   const { LandingIcon, accentHex, accentTextClass } = meta;
   const lore = entry.loreKey ? t(entry.loreKey) : resolveEntryDesc(entry, t);
+  const cardDef = entry.category === "card" ? CARDS_BY_ID[entry.id] : undefined;
 
   return (
     <div className="dh-rise relative z-10 flex flex-1 flex-col overflow-hidden">
@@ -361,6 +356,13 @@ function WikiEntryView({ entry }: { entry: WikiEntry }) {
               style={{ objectPosition: "center top" }}
               priority
             />
+            {cardDef && (
+              <LevelPennant
+                level={cardDef.level}
+                size="md"
+                label={t("wiki.card.level", { level: cardDef.level })}
+              />
+            )}
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/60 to-transparent" />
           </div>
         )}
@@ -391,9 +393,6 @@ function WikiEntryView({ entry }: { entry: WikiEntry }) {
                   <>
                     <span className="rounded-full border border-fear/30 bg-fear/10 px-2.5 py-1 text-[11px] font-semibold text-fear-bright">
                       {t(`dh.domain.${card.domain}`)}
-                    </span>
-                    <span className="rounded-full border border-border bg-surface-2/50 px-2.5 py-1 text-[11px] font-medium text-muted">
-                      {t(`wiki.card.level`, { level: card.level })}
                     </span>
                     <span className="rounded-full border border-border bg-surface-2/50 px-2.5 py-1 text-[11px] font-medium text-muted">
                       {t(`wizard.cards.${card.type}`)}

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import type { Character, TraitKey } from "@/lib/daggerheart/types";
 import { CARDS_BY_ID } from "@/lib/daggerheart/cards";
 import { WEAPONS_BY_ID, ARMOR_BY_ID } from "@/lib/daggerheart/equipment";
+import { LevelPennant } from "@/components/LevelPennant";
 
 // NOTA: boostedTraits ya existe en Character; cast defensivo por si otro agente lo modifica
 interface Props {
@@ -158,6 +159,10 @@ export function CharacterSheetClient({ character: c }: Props) {
                       }}
                     />
                     <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-surface-2 to-transparent" />
+                    <LevelPennant
+                      level={card.level}
+                      label={t("characters.level", { level: card.level })}
+                    />
                   </div>
                   <div className="px-3 pb-3 pt-2">
                     <p className="font-display text-sm font-semibold text-foreground">
