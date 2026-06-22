@@ -108,6 +108,13 @@ body {
 .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.75rem); }
 .min-h-dvh { min-height: 100dvh; }
 
+/* Real viewport height. En PWA standalone de iOS, 100dvh/100vh/100% se calculan
+   más cortos que la pantalla y dejan una franja inferior (se ve el background del
+   manifest). --app-height la fija desde window.innerHeight (ground truth) vía el
+   script inline del layout; fallback a 100dvh en SSR / sin JS. */
+.h-app { height: var(--app-height, 100dvh); }
+.min-h-app { min-height: var(--app-height, 100dvh); }
+
 @keyframes dh-pop {
   from { opacity: 0; transform: translateY(-6px) scale(0.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }

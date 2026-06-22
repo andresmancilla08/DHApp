@@ -25,7 +25,7 @@ export function HomeContent({ username, characters }: Props) {
   const hasChars = sorted.length > 0;
 
   return (
-    <div className="relative flex h-dvh flex-col overflow-hidden text-foreground">
+    <div className="relative flex h-app flex-col overflow-hidden text-foreground">
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
 

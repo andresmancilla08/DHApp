@@ -48,6 +48,14 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* iOS standalone PWA: 100dvh/vh quedan cortos y dejan una franja inferior.
+            Fijamos --app-height desde window.innerHeight (altura real del webview). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){function s(){document.documentElement.style.setProperty('--app-height',window.innerHeight+'px');}s();addEventListener('resize',s);addEventListener('orientationchange',s);})();",
+          }}
+        />
         <DevSwKiller />
         <I18nProvider initialLanguage={lang}>
           {/* Content capped + centered on desktop/tablet. No transform here on purpose:

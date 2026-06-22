@@ -12,7 +12,7 @@ export default async function AuthLayout({
   if (await getSession()) redirect("/");
 
   return (
-    <div className="relative flex h-dvh flex-col overflow-hidden overscroll-none px-5">
+    <div className="relative flex h-app flex-col overflow-hidden overscroll-none px-5">
       <LockOverscroll />
       {/* Backdrop layers sit behind content (fixed, z-index -1) and never catch pointer events. */}
       <div className="dh-aurora" aria-hidden />

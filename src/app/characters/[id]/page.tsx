@@ -18,7 +18,7 @@ export default async function CharacterPage({ params }: Props) {
   if (!character) notFound();
 
   return (
-    <div className="relative flex h-dvh flex-col overflow-hidden text-foreground">
+    <div className="relative flex h-app flex-col overflow-hidden text-foreground">
       <div className="dh-aurora" aria-hidden />
       <div className="dh-grain" aria-hidden />
       <SubHeader backHref="/characters" rightElement={<CharacterActionsMenu character={character} />} />

@@ -146,7 +146,7 @@ export function CharacterWizard({ editCharacter }: { editCharacter?: Character }
   };
 
   return (
-    <div className="relative flex h-dvh flex-col overflow-hidden overscroll-none">
+    <div className="relative flex h-app flex-col overflow-hidden overscroll-none">
       {/* Sub-header: ← goes to prev step; cancel button on right */}
       <SubHeader
         onBack={step > 0 ? () => setStep(step - 1) : undefined}
