@@ -45,6 +45,7 @@ export default async function RootLayout({
   return (
     <html
       lang={lang}
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
