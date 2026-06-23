@@ -74,3 +74,9 @@ Una vez extraídas, las rutas en el mapa de arte del componente deben estar acti
 - Build/dev en `--webpack` (Serwist no soporta Turbopack en Next 16).
 
 @AGENTS.md
+
+## Documentación de contexto
+
+Contexto del proyecto en `docs/contexto/` (leer antes de planificar cambios):
+- [Arquitectura](docs/contexto/arquitectura.md) · [Convenciones](docs/contexto/convenciones.md) · [Decisiones](docs/contexto/decisiones.md)
+- [Glosario y Entidades](docs/contexto/glosario.md) · [Flujo de Trabajo](docs/contexto/flujo-de-trabajo.md) · [Errores Conocidos](docs/contexto/errores-conocidos.md)
