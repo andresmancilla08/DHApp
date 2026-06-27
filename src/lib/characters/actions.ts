@@ -27,8 +27,9 @@ export interface CreateCharacterInput {
 /**
  * Derivation rules version. Bump when deriveBaseStats changes so the migration
  * (scripts/migrate-rules.cjs) can apply the delta exactly once per character.
+ * Not exported: "use server" files may only export async functions.
  */
-export const CURRENT_RULES_VERSION = 2;
+const CURRENT_RULES_VERSION = 2;
 
 /** Base stats derived from class + equipment + ancestry (level-1 baseline). Shared by create/update. */
 function deriveBaseStats(input: CreateCharacterInput) {
