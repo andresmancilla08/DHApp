@@ -75,9 +75,9 @@ export function CharacterActionsMenu({ character }: { character: Character }) {
                 setMenuOpen(false);
                 setLevelUpOpen(true);
               }}
-              className="flex h-12 w-full items-center gap-3 rounded-2xl border border-gold/30 bg-gold/[0.12] px-4 text-left text-gold transition hover:brightness-110 active:scale-[0.99]"
+              className="flex h-12 w-full items-center gap-3 rounded-2xl border border-border bg-surface-2/40 px-4 text-left text-foreground transition hover:border-border-strong active:scale-[0.99]"
             >
-              <IconChevronsUp size={20} stroke={1.8} />
+              <IconChevronsUp size={20} stroke={1.8} className="text-gold" />
               <span className="font-medium">{t("levelUp.button")}</span>
             </button>
           )}
