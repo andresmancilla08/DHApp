@@ -24,27 +24,38 @@ export interface CreateCharacterInput {
   experiences: [string, string];
 }
 
-/** Base stats derived from class + equipment (level-1 baseline). Shared by create/update. */
+/** Base stats derived from class + equipment + ancestry (level-1 baseline). Shared by create/update. */
 function deriveBaseStats(input: CreateCharacterInput) {
   const classDef = CLASS_DEFS[input.classKey];
   const armor = input.armorId ? ARMOR_BY_ID[input.armorId] : null;
   const primaryWeapon = WEAPONS_BY_ID[input.primaryWeaponId];
 
   let evasion = classDef.evasion;
+  let hpMax = classDef.hp;
+  let stressMax = 6;
+
+  // ── Equipment automatics ──
   if (armor?.featureKey === "flexible")  evasion += 1;
   if (armor?.featureKey === "heavy")     evasion -= 1;
   if (armor?.featureKey === "veryHeavy") evasion -= 2;
   if (primaryWeapon?.featureKey === "massive") evasion -= 1;
   if (primaryWeapon?.featureKey === "heavy")   evasion -= 1;
 
-  return { evasion, hpMax: classDef.hp, armorScore: armor?.score ?? 0 };
+  // ── Ancestry passive bonuses applied at character creation (CoreBook ch.1) ──
+  // Only the permanent baseline bonuses are auto-applied; situational features
+  // are shown as ability text on the sheet, not folded into stats.
+  if (input.ancestryKey === "simiah") evasion += 1;  // Nimble: +1 Evasion
+  if (input.ancestryKey === "giant")  hpMax += 1;     // Endurance: +1 Hit Point slot
+  if (input.ancestryKey === "human")  stressMax += 1; // High Stamina: +1 Stress slot
+
+  return { evasion, hpMax, stressMax, armorScore: armor?.score ?? 0 };
 }
 
 export async function createCharacter(input: CreateCharacterInput): Promise<{ id: string } | { error: string }> {
   const session = await getSession();
   if (!session) return { error: "auth.errors.unknown" };
 
-  const { evasion, hpMax, armorScore } = deriveBaseStats(input);
+  const { evasion, hpMax, stressMax, armorScore } = deriveBaseStats(input);
 
   const now = new Date().toISOString();
   const id = crypto.randomUUID();
@@ -64,7 +75,7 @@ export async function createCharacter(input: CreateCharacterInput): Promise<{ id
     evasion,
     hpMax,
     hpMarked: 0,
-    stressMax: 6,
+    stressMax,
     stressMarked: 0,
     hope: 2,
     proficiency: 1,
@@ -148,7 +159,7 @@ export async function updateCharacter(
   // Editing is only allowed before any level-up; afterwards stats/progress would desync.
   if (existing.level > 1) return { error: "character.errors.editLocked" };
 
-  const { evasion, hpMax, armorScore } = deriveBaseStats(input);
+  const { evasion, hpMax, stressMax, armorScore } = deriveBaseStats(input);
   const now = new Date().toISOString();
   const pronouns = input.pronouns?.trim() || null;
 
@@ -163,9 +174,10 @@ export async function updateCharacter(
     traits: input.traits,
     evasion,
     hpMax,
+    stressMax,
     // Keep tracked combat state coherent with new maxima.
     hpMarked: Math.min(existing.hpMarked, hpMax),
-    stressMarked: Math.min(existing.stressMarked, existing.stressMax),
+    stressMarked: Math.min(existing.stressMarked, stressMax),
     armorScore,
     experiences: [
       { id: "exp1", name: input.experiences[0], modifier: 2 },

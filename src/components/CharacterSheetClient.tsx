@@ -65,9 +65,10 @@ export function CharacterSheetClient({ character: c }: Props) {
 
       <div className="flex flex-col gap-5 pb-6">
         {/* ── Stats ── */}
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           {[
             { label: t("wizard.review.evasion"), value: c.evasion },
+            { label: t("wizard.review.armor"), value: c.armorScore },
             { label: t("wizard.review.hp"), value: c.hpMax },
             { label: t("wizard.review.stress"), value: c.stressMax },
             { label: t("wizard.review.hope"), value: c.hope },
@@ -186,27 +187,77 @@ export function CharacterSheetClient({ character: c }: Props) {
           subclassKey={c.subclassKey}
         />
 
-        {/* ── Equipment ── */}
+        {/* ── Equipment (weapons + armor, with auto-derived stats) ── */}
         {(weapons.length > 0 || armor) && (
-          <div className="rounded-2xl border border-border/60 bg-surface-2/50 px-4">
-            {weapons.map((weapon) => (
-              <div
-                key={weapon.id}
-                className="flex items-baseline justify-between gap-2 border-b border-border/40 py-3 last:border-0"
-              >
-                <span className="text-xs text-muted">{t("wizard.review.weapon")}</span>
-                <span className="text-sm font-medium text-foreground">
-                  {t(`equip.${weapon.id}.name`)}{" "}
-                  <span className="text-muted">({weapon.damage})</span>
-                </span>
-              </div>
-            ))}
-            {armor && (
-              <div className="flex items-baseline justify-between gap-2 py-3">
-                <span className="text-xs text-muted">{t("wizard.review.armor")}</span>
-                <span className="text-sm font-medium text-foreground">{t(`equip.${armor.id}.name`)}</span>
-              </div>
-            )}
+          <div className="rounded-2xl border border-border/60 bg-surface-2/50 p-4">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">
+              {t("wizard.equipment.title")}
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {weapons.map((weapon) => (
+                <div
+                  key={weapon.id}
+                  className="rounded-xl border border-border/50 bg-background/30 p-3"
+                >
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="text-sm font-medium text-foreground">
+                      {t(`equip.${weapon.id}.name`)}
+                    </span>
+                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-muted/80">
+                      {t(
+                        weapon.secondary
+                          ? "wizard.equipment.secondaryShort"
+                          : "wizard.equipment.primaryShort",
+                      )}
+                    </span>
+                  </div>
+                  <div className="mt-1.5 flex flex-wrap gap-x-2.5 gap-y-1 text-xs text-muted">
+                    <span>
+                      {t("wizard.equipment.damage")}{" "}
+                      <span className="font-medium text-foreground/90">{weapon.damage}</span>{" "}
+                      <span className="text-muted/70">
+                        ({t(`wizard.equipment.${weapon.dmgType === "mag" ? "magic" : "physical"}`)})
+                      </span>
+                    </span>
+                    <span aria-hidden className="text-border-strong">·</span>
+                    <span>{t(`dh.rangeLabel.${weapon.range}`)}</span>
+                    <span aria-hidden className="text-border-strong">·</span>
+                    <span>{t(`dh.trait.${weapon.trait}`)}</span>
+                  </div>
+                  {weapon.featureKey && (
+                    <p className="mt-1.5 text-xs leading-relaxed text-gold/85">
+                      {t(`dh.equipFeature.${weapon.featureKey}`)}
+                    </p>
+                  )}
+                </div>
+              ))}
+
+              {armor && (
+                <div className="rounded-xl border border-border/50 bg-background/30 p-3">
+                  <span className="text-sm font-medium text-foreground">
+                    {t(`equip.${armor.id}.name`)}
+                  </span>
+                  <div className="mt-1.5 flex flex-wrap gap-x-2.5 gap-y-1 text-xs text-muted">
+                    <span>
+                      {t("wizard.equipment.score")}{" "}
+                      <span className="font-medium text-foreground/90">{armor.score}</span>
+                    </span>
+                    <span aria-hidden className="text-border-strong">·</span>
+                    <span>
+                      {t("wizard.equipment.thresholds")}{" "}
+                      <span className="font-medium text-foreground/90">
+                        {armor.minorThreshold}/{armor.severeThreshold}
+                      </span>
+                    </span>
+                  </div>
+                  {armor.featureKey && (
+                    <p className="mt-1.5 text-xs leading-relaxed text-gold/85">
+                      {t(`dh.equipFeature.${armor.featureKey}`)}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
